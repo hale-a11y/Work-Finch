@@ -39,11 +39,6 @@
             overflow-y: auto;
         }
 
-        .tasks-panel {
-            display: flex;
-            flex-direction: column;
-        }
-
         h1 {
             color: #8b4513;
             margin-bottom: 25px;
@@ -51,69 +46,176 @@
             font-size: 1.8em;
         }
 
-        .project-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .project-tab {
-            padding: 8px 16px;
-            background: rgba(212, 181, 160, 0.3);
-            border: 2px solid transparent;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .project-tab.active {
-            background: #d4b5a0;
-            color: #5a5a5a;
-            border-color: #8b4513;
-        }
-
-        .project-tab:hover {
-            background: rgba(212, 181, 160, 0.5);
-        }
-
-        .project-progress {
-            font-size: 10px;
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #8b4513;
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-        }
-
         .task-input-section {
             margin-bottom: 25px;
         }
 
-        .task-input-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
         .task-input {
-            flex: 1;
+            width: 100%;
             padding: 12px;
             border: 2px solid #d4b5a0;
             border-radius: 12px;
             font-family: 'DM Sans', sans-serif;
             font-size: 14px;
             background: white;
+            margin-bottom: 15px;
+        }
+
+        .add-btn {
+            width: 100%;
+            padding: 15px;
+            background: #8b4513;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .add-btn:hover {
+            background: #a0522d;
+            transform: translateY(-2px);
+        }
+
+        .forest-creature {
+            font-size: 120px;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            user-select: none;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .forest-creature:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .forest-creature.happy {
+            animation: bounce 0.6s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .stats {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .stat-label {
+            font-weight: 500;
+            color: #8b4513;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: #5a5a5a;
+        }
+
+        .tasks-container {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .task-item {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .task-item:hover {
+            border-color: #d4b5a0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .task-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .task-item:hover .task-actions {
+            opacity: 1;
+        }
+
+        .edit-btn, .delete-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background: #e8e8e8;
+        }
+
+        .delete-btn:hover {
+            background: #ffe6e6;
+            color: #d32f2f;
+        }
+
+        .task-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d4b5a0;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .task-checkbox.checked {
+            background: #8b4513;
+            border-color: #8b4513;
+        }
+
+        .task-checkbox.checked::after {
+            content: '✓';
+            color: white;
+            position: absolute;
+            top: -2px;
+            left: 3px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .task-text {
+            font-size: 16px;
+            line-height: 1.4;
+            color: #5a5a5a;
         }
 
         .section-divider {
@@ -131,72 +233,24 @@
             border-radius: 12px;
         }
 
-        .task-input-row-2 {
+        .input-controls {
             display: flex;
             flex-direction: column;
             gap: 15px;
-            margin-bottom: 10px;
-        }
-
-        .input-row-top {
-            display: flex;
-            gap: 10px;
-        }
-
-        .input-row-bottom {
-            display: flex;
-            gap: 10px;
-            align-items: end;
-        }
-
-        .project-input-container {
-            position: relative;
-            flex: 1;
-            min-width: 140px;
-        }
-
-        .project-input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #d4b5a0;
-            border-radius: 12px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 14px;
-            background: white;
-        }
-
-        .subcategory-container {
-            width: 100%;
-        }
-
-        .subcategory-input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 2px solid #e8e8e8;
-            border-radius: 10px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 13px;
-            background: #fafafa;
-            color: #666;
-        }
-
-        .subcategory-input:focus {
-            border-color: #d4b5a0;
-            background: white;
-            outline: none;
+            margin-bottom: 15px;
         }
 
         .priority-buttons {
             display: flex;
             gap: 8px;
-            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .priority-btn {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 10px 15px;
+            padding: 12px 16px;
             border: 2px solid #d4b5a0;
             border-radius: 12px;
             background: white;
@@ -219,19 +273,17 @@
 
         .priority-emoji {
             font-size: 16px;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
 
         .priority-label {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 500;
             text-align: center;
             line-height: 1.1;
         }
 
-        .points-slider-container {
-            min-width: 160px;
-            flex: 1;
+        .effort-section {
             position: relative;
         }
 
@@ -292,12 +344,12 @@
 
         .effort-tooltip {
             position: absolute;
-            top: -100px;
+            top: -90px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.9);
             color: white;
-            padding: 12px;
+            padding: 10px;
             border-radius: 8px;
             font-size: 11px;
             white-space: nowrap;
@@ -317,205 +369,79 @@
             border-top-color: rgba(0, 0, 0, 0.9);
         }
 
-        .points-slider-container:hover .effort-tooltip {
-            opacity: 1;
-        }
-
-        .add-btn {
-            padding: 12px 20px;
-            background: #8b4513;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        .add-btn:hover {
-            background: #a0522d;
-            transform: translateY(-2px);
-        }
-
-        .tasks-container {
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .task-item {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 12px;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            position: relative;
-            border-left: 5px solid #d4b5a0;
-        }
-
-        .task-item.must-do {
-            border-left: 5px solid #d32f2f;
-        }
-
-        .task-item.nice-to-do {
-            border-left: 5px solid #2e7d32;
-        }
-
-        .task-item.stretch-goal {
-            border-left: 5px solid #1976d2;
-        }
-
-        .task-item:hover {
-            border-color: #d4b5a0;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .task-item.completed {
-            opacity: 0.6;
-            background: #f8f8f0;
-        }
-
-        .task-content {
+        .project-tabs {
             display: flex;
-            align-items: flex-start;
-            gap: 12px;
-        }
-
-        .task-checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #d4b5a0;
-            border-radius: 6px;
-            cursor: pointer;
-            position: relative;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .task-checkbox.checked {
-            background: #8b4513;
-            border-color: #8b4513;
-        }
-
-        .task-checkbox.checked::after {
-            content: '✓';
-            color: white;
-            position: absolute;
-            top: -2px;
-            left: 3px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .task-details {
-            flex: 1;
-        }
-
-        .task-text {
-            font-size: 16px;
-            line-height: 1.4;
-            margin-bottom: 8px;
-            word-wrap: break-word;
-        }
-
-        .task-text.completed {
-            text-decoration: line-through;
-            color: #999;
-        }
-
-        .task-meta {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            gap: 8px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
-        .task-project {
-            display: inline-block;
+        .project-tab {
+            padding: 8px 16px;
+            background: rgba(212, 181, 160, 0.3);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .project-tab.active {
             background: #d4b5a0;
             color: #5a5a5a;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-            white-space: normal;
-            word-wrap: break-word;
-            line-height: 1.3;
+            border-color: #8b4513;
         }
 
-        .task-priority {
-            padding: 4px 8px;
-            border-radius: 12px;
+        .project-tab:hover {
+            background: rgba(212, 181, 160, 0.5);
+        }
+
+        .project-progress {
             font-size: 10px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .priority-must-do {
-            background: #ffebee;
-            color: #d32f2f;
-        }
-
-        .priority-nice-to-do {
-            background: #e8f5e8;
-            color: #2e7d32;
-        }
-
-        .priority-stretch-goal {
-            background: #e3f2fd;
-            color: #1976d2;
-        }
-
-        .task-points {
-            background: #fff3e0;
-            color: #f57c00;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        .task-actions {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: -5px;
+            right: -5px;
+            background: #8b4513;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
             display: flex;
-            gap: 5px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .task-item:hover .task-actions {
-            opacity: 1;
-        }
-
-        .edit-btn, .delete-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 6px;
-            font-size: 14px;
-            transition: background 0.3s ease;
-        }
-
-        .edit-btn:hover {
-            background: #e8e8e8;
-        }
-
-        .delete-btn:hover {
-            background: #ffe6e6;
-            color: #d32f2f;
-        }
-
-        .buddy-panel {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
             align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .category-inputs {
+            margin-bottom: 15px;
+        }
+
+        .category-row {
+            margin-bottom: 8px;
+        }
+
+        .category-input, .subcategory-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #d4b5a0;
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            background: white;
+        }
+
+        .subcategory-input {
+            border-color: #e8e8e8;
+            background: #fafafa;
+            font-size: 13px;
+        }
+
+        .subcategory-input:focus {
+            border-color: #d4b5a0;
+            background: white;
+            outline: none;
         }
 
         .weather-section {
@@ -546,8 +472,9 @@
         }
 
         .buddy-container {
-            margin: 30px 0;
             position: relative;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
         .forest-creature {
@@ -555,14 +482,7 @@
             transition: all 0.5s ease;
             cursor: pointer;
             user-select: none;
-        }
-
-        .forest-creature:hover {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .forest-creature.happy {
-            animation: bounce 0.6s ease;
+            margin: 30px 0;
         }
 
         .animal-visitor {
@@ -576,62 +496,17 @@
         .visitor-2 { top: 30px; left: -20px; animation-delay: 1s; }
         .visitor-3 { bottom: -20px; right: -10px; animation-delay: 2s; }
 
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
         .visitor-help {
             font-size: 12px;
             color: #8b4513;
             margin-top: 10px;
             font-style: italic;
             text-align: center;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(-5deg); }
-            50% { transform: translateY(-10px) rotate(5deg); }
-        }
-
-        .stats {
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            width: 100%;
-        }
-
-        .stat-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            font-size: 16px;
-        }
-
-        .stat-label {
-            font-weight: 500;
-            color: #8b4513;
-        }
-
-        .stat-value {
-            font-weight: 600;
-            color: #5a5a5a;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 12px;
-            background: #e8e8e8;
-            border-radius: 6px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #8b4513, #d4b5a0);
-            transition: width 0.5s ease;
         }
 
         .weekly-summary {
@@ -685,227 +560,102 @@
             font-style: italic;
         }
 
-        .motivational-message {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(139, 69, 19, 0.1);
-            border-radius: 12px;
-            font-style: italic;
-            color: #8b4513;
-            border-left: 4px solid #8b4513;
-            width: 100%;
-        }
-
-        .export-section {
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 15px;
-            width: 100%;
-        }
-
-        .export-btn {
-            width: 100%;
-            padding: 12px;
-            background: #8b4513;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            font-weight: 500;
-            margin-bottom: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .export-btn:hover {
-            background: #a0522d;
-            transform: translateY(-2px);
-        }
-
-        .edit-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .edit-modal-content {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 600px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .edit-modal h3 {
-            color: #8b4513;
-            margin-bottom: 20px;
-            font-size: 1.5em;
-        }
-
-        .edit-modal input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #d4b5a0;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 14px;
-            background: white;
-        }
-
-        .edit-modal-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            margin-top: 20px;
-        }
-
-        .save-btn, .cancel-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            font-weight: 500;
-        }
-
-        .save-btn {
-            background: #8b4513;
-            color: white;
-        }
-
-        .cancel-btn {
-            background: #e8e8e8;
-            color: #5a5a5a;
-        }
-
         .empty-state {
             text-align: center;
             padding: 40px 20px;
             color: #999;
             font-style: italic;
         }
-
-        @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .task-input-row, .input-row-top, .input-row-bottom {
-                flex-direction: column;
-            }
-            
-            .project-input-container, .priority-buttons, .points-slider-container {
-                width: 100%;
-            }
-
-            .priority-buttons {
-                justify-content: center;
-            }
-
-            .priority-btn {
-                min-width: 100px;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- Tasks Panel -->
-        <div class="panel tasks-panel">
+        <div class="panel">
             <h1>📋 My Tasks</h1>
             
             <div class="project-tabs" id="projectTabs">
                 <div class="project-tab active" onclick="filterByProject('')">
                     🌍 All Categories
-                    <div class="project-progress" id="allProgress">0</div>
+                    <div class="project-progress" id="allProgress">0%</div>
                 </div>
             </div>
-
+            
             <div class="task-input-section">
-                <div class="task-input-row">
-                    <input type="text" id="taskInput" class="task-input" placeholder="✨ What adventure shall we tackle today?" maxlength="100">
-                </div>
+                <input type="text" id="taskInput" class="task-input" placeholder="✨ What adventure shall we tackle today?" maxlength="100">
+                
                 <div class="section-divider">
                     <span class="section-help">🗂️ Group similar tasks together!</span>
                 </div>
-                <div class="task-input-row-2">
-                    <div class="input-row-top">
-                        <div class="project-input-container">
-                            <input type="text" id="projectInput" class="project-input" placeholder="🗂️ Category (or type your own!)" maxlength="20" list="categoryDatalist">
-                            <datalist id="categoryDatalist">
-                                <option value="Admin">
-                                <option value="Communication">
-                                <option value="Development">
-                                <option value="Meeting Prep">
-                                <option value="Personal">
-                                <option value="Projects">
-                            </datalist>
-                        </div>
-                        <div class="subcategory-container">
-                            <input type="text" id="subcategoryInput" class="subcategory-input" placeholder="📂 Sub-category (optional)" maxlength="20" list="subcategoryDatalist">
-                            <datalist id="subcategoryDatalist"></datalist>
-                        </div>
+                
+                <div class="category-inputs">
+                    <div class="category-row">
+                        <input type="text" id="projectInput" class="category-input" placeholder="🗂️ Category (or type your own!)" list="categoryDatalist">
+                        <datalist id="categoryDatalist">
+                            <option value="Admin">
+                            <option value="Communication">
+                            <option value="Development">
+                            <option value="Meeting Prep">
+                            <option value="Personal">
+                            <option value="Projects">
+                        </datalist>
                     </div>
-                    <div class="input-row-bottom">
-                        <div class="priority-buttons" id="priorityButtons">
-                            <button type="button" class="priority-btn active" data-priority="must-do">
-                                <span class="priority-emoji">🔥</span>
-                                <span class="priority-label">Must-Do</span>
-                            </button>
-                            <button type="button" class="priority-btn" data-priority="nice-to-do">
-                                <span class="priority-emoji">⭐</span>
-                                <span class="priority-label">Nice-to-Do</span>
-                            </button>
-                            <button type="button" class="priority-btn" data-priority="stretch-goal">
-                                <span class="priority-emoji">🚀</span>
-                                <span class="priority-label">Stretch Goal</span>
-                            </button>
+                    <div class="category-row">
+                        <input type="text" id="subcategoryInput" class="subcategory-input" placeholder="📂 Sub-category (optional)" list="subcategoryDatalist">
+                        <datalist id="subcategoryDatalist"></datalist>
+                    </div>
+                </div>
+                
+                <div class="input-controls">
+                    <div class="priority-buttons" id="priorityButtons">
+                        <button type="button" class="priority-btn active" data-priority="must-do">
+                            <span class="priority-emoji">🔥</span>
+                            <span class="priority-label">Must-Do</span>
+                        </button>
+                        <button type="button" class="priority-btn" data-priority="nice-to-do">
+                            <span class="priority-emoji">⭐</span>
+                            <span class="priority-label">Nice-to-Do</span>
+                        </button>
+                        <button type="button" class="priority-btn" data-priority="stretch-goal">
+                            <span class="priority-emoji">🚀</span>
+                            <span class="priority-label">Stretch Goal</span>
+                        </button>
+                    </div>
+                    
+                    <div class="effort-section">
+                        <div class="slider-label">
+                            <span>⚡ Effort Level</span>
+                            <span class="effort-display" id="effortDisplay">Quick Task</span>
                         </div>
-                        <div class="points-slider-container">
-                            <div class="slider-label">
-                                <span>⚡ Effort Level</span>
-                                <span class="effort-display" id="effortDisplay">Quick Task</span>
-                            </div>
-                            <input type="range" id="pointsSlider" class="points-slider" min="1" max="10" value="1">
-                            <div class="slider-markers">
-                                <span>1</span><span>5</span><span>10</span>
-                            </div>
-                            <div class="effort-tooltip" id="effortTooltip">
-                                <div class="tooltip-content">
-                                    <strong>Time Guide:</strong><br>
-                                    1-2 pts: Quick (5-15 min)<br>
-                                    3-4 pts: Medium (30-60 min)<br>
-                                    5-7 pts: Big (2-4 hours)<br>
-                                    8-10 pts: Epic (full day+)
-                                </div>
+                        <input type="range" id="pointsSlider" class="points-slider" min="1" max="10" value="1">
+                        <div class="slider-markers">
+                            <span>1</span><span>5</span><span>10</span>
+                        </div>
+                        <div class="effort-tooltip">
+                            <div class="tooltip-content">
+                                <strong>Time Guide:</strong><br>
+                                1-2 pts: Quick (5-15 min)<br>
+                                3-4 pts: Medium (30-60 min)<br>
+                                5-7 pts: Big (2-4 hours)<br>
+                                8-10 pts: Epic (full day+)
                             </div>
                         </div>
                     </div>
                 </div>
+                
                 <button id="addTaskBtn" class="add-btn">🌱 Plant Your Task</button>
             </div>
 
             <div class="tasks-container">
                 <div id="tasksList"></div>
-                <div id="emptyState" class="empty-state" style="display: none;">
+                <div id="emptyState" class="empty-state">
                     No tasks yet! Add some tasks to help your forest companion grow! 🌱
                 </div>
             </div>
         </div>
 
         <!-- Productivity Buddy Panel -->
-        <div class="panel buddy-panel">
+        <div class="panel">
             <h1>🦊 Productivity Buddy</h1>
             
             <div class="weather-section">
@@ -916,7 +666,7 @@
             
             <div class="buddy-container">
                 <div id="forestCreature" class="forest-creature">🌰</div>
-                <div id="creatureName" style="font-size: 18px; font-weight: 600; color: #8b4513; margin-top: 10px;">Forest Seed</div>
+                <div style="text-align: center; font-size: 18px; font-weight: 600; color: #8b4513;" id="creatureName">Forest Seed</div>
                 
                 <!-- Animal visitors -->
                 <div id="animalVisitors"></div>
@@ -942,13 +692,6 @@
                     <span class="stat-label">Must-Do Streak:</span>
                     <span class="stat-value" id="mustDoStreak">0</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-label">Experience:</span>
-                    <span class="stat-value"><span id="currentXP">0</span>/<span id="nextLevelXP">25</span></span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-                </div>
             </div>
 
             <div class="weekly-summary">
@@ -957,13 +700,7 @@
                 <div style="font-size: 14px; color: #5a5a5a; margin-top: 10px;">
                     <strong id="weeklyMustDoComplete">0</strong> of <strong id="weeklyMustDoTotal">0</strong> must-do tasks completed
                 </div>
-                <div class="weekly-help">
-                    Complete 3+ tasks per day to fill the circles! 🎯
-                </div>
-            </div>
-
-            <div id="motivationalMessage" class="motivational-message">
-                Welcome! Complete tasks to help your forest companion grow from a seed! 🌱
+                <div class="weekly-help">Complete 3+ tasks per day to fill the circles! 🎯</div>
             </div>
 
             <div class="export-section">
@@ -971,10 +708,8 @@
                 <button class="export-btn" onclick="exportToJSON()">💾 Export Tasks</button>
                 <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importFromJSON()">
                 <button class="export-btn" onclick="document.getElementById('importFile').click()">📥 Import Tasks</button>
-                <button class="export-btn" onclick="exportToCSV()">📊 Export to CSV</button>
-                <button class="export-btn" onclick="exportToMarkdown()">📝 Export to Markdown</button>
                 <p style="font-size: 12px; color: #999; margin-top: 10px;">
-                    Export/Import JSON to sync between devices. CSV/Markdown for other tools.
+                    Export/Import JSON to sync between devices!
                 </p>
             </div>
         </div>
@@ -984,63 +719,33 @@
     <div id="editModal" class="edit-modal" style="display: none;">
         <div class="edit-modal-content">
             <h3>Edit Task</h3>
-            <input type="text" id="editTaskText" placeholder="✨ Update your adventure">
+            <input type="text" id="editTaskText" class="edit-input" placeholder="✨ Update your adventure">
+            <input type="text" id="editTaskProject" class="edit-input" placeholder="🗂️ Category">
+            <input type="text" id="editTaskSubcategory" class="edit-input subcategory-input" placeholder="📂 Sub-category (optional)">
             
-            <div class="section-divider">
-                <span class="section-help">🗂️ Update task categories!</span>
+            <div class="edit-priority-buttons" id="editPriorityButtons">
+                <button type="button" class="priority-btn" data-priority="must-do">
+                    <span class="priority-emoji">🔥</span>
+                    <span class="priority-label">Must-Do</span>
+                </button>
+                <button type="button" class="priority-btn" data-priority="nice-to-do">
+                    <span class="priority-emoji">⭐</span>
+                    <span class="priority-label">Nice-to-Do</span>
+                </button>
+                <button type="button" class="priority-btn" data-priority="stretch-goal">
+                    <span class="priority-emoji">🚀</span>
+                    <span class="priority-label">Stretch Goal</span>
+                </button>
             </div>
-            
-            <div class="task-input-row-2">
-                <div class="input-row-top">
-                    <div class="project-input-container">
-                        <input type="text" id="editTaskProject" class="project-input" placeholder="🗂️ Category (or type your own!)" list="editCategoryDatalist">
-                        <datalist id="editCategoryDatalist">
-                            <option value="Admin">
-                            <option value="Communication">
-                            <option value="Development">
-                            <option value="Meeting Prep">
-                            <option value="Personal">
-                            <option value="Projects">
-                        </datalist>
-                    </div>
-                    <div class="subcategory-container">
-                        <input type="text" id="editTaskSubcategory" class="subcategory-input" placeholder="📂 Sub-category (optional)">
-                    </div>
+
+            <div class="edit-effort-section">
+                <div class="slider-label">
+                    <span>⚡ Effort Level</span>
+                    <span class="effort-display" id="editEffortDisplay">Quick Task</span>
                 </div>
-                <div class="input-row-bottom">
-                    <div class="priority-buttons" id="editPriorityButtons">
-                        <button type="button" class="priority-btn" data-priority="must-do">
-                            <span class="priority-emoji">🔥</span>
-                            <span class="priority-label">Must-Do</span>
-                        </button>
-                        <button type="button" class="priority-btn" data-priority="nice-to-do">
-                            <span class="priority-emoji">⭐</span>
-                            <span class="priority-label">Nice-to-Do</span>
-                        </button>
-                        <button type="button" class="priority-btn" data-priority="stretch-goal">
-                            <span class="priority-emoji">🚀</span>
-                            <span class="priority-label">Stretch Goal</span>
-                        </button>
-                    </div>
-                    <div class="points-slider-container">
-                        <div class="slider-label">
-                            <span>⚡ Effort Level</span>
-                            <span class="effort-display" id="editEffortDisplay">Quick Task</span>
-                        </div>
-                        <input type="range" id="editPointsSlider" class="points-slider" min="1" max="10" value="1">
-                        <div class="slider-markers">
-                            <span>1</span><span>5</span><span>10</span>
-                        </div>
-                        <div class="effort-tooltip">
-                            <div class="tooltip-content">
-                                <strong>Time Guide:</strong><br>
-                                1-2 pts: Quick (5-15 min)<br>
-                                3-4 pts: Medium (30-60 min)<br>
-                                5-7 pts: Big (2-4 hours)<br>
-                                8-10 pts: Epic (full day+)
-                            </div>
-                        </div>
-                    </div>
+                <input type="range" id="editPointsSlider" class="points-slider" min="1" max="10" value="1">
+                <div class="slider-markers">
+                    <span>1</span><span>5</span><span>10</span>
                 </div>
             </div>
             
@@ -1050,18 +755,18 @@
             </div>
         </div>
     </div>
+    </div>
 
     <script>
-        // App State
-        let tasks = JSON.parse(localStorage.getItem('forestTasks')) || [];
-        let currentTaskId = parseInt(localStorage.getItem('currentTaskId')) || 1;
-        let completedTasksCount = parseInt(localStorage.getItem('completedTasksCount')) || 0;
-        let mustDoStreak = parseInt(localStorage.getItem('mustDoStreak')) || 0;
-        let level = parseInt(localStorage.getItem('level')) || 1;
-        let totalPoints = parseInt(localStorage.getItem('totalPoints')) || 0;
-        let categorySubcategories = JSON.parse(localStorage.getItem('categorySubcategories')) || {};
-        let editingTaskId = null;
+        // Basic state
+        let tasks = [];
+        let currentTaskId = 1;
+        let completedTasksCount = 0;
+        let categorySubcategories = {};
         let currentProjectFilter = '';
+        let totalPoints = 0;
+        let mustDoStreak = 0;
+        let level = 1;
 
         // Forest creature evolution stages
         const creatureStages = [
@@ -1075,185 +780,38 @@
 
         // Weather patterns
         const weatherPatterns = [
-            { emoji: '☀️', text: 'Perfect productivity weather!', condition: 'high' },
-            { emoji: '⛅', text: 'Partly cloudy but getting things done!', condition: 'medium' },
-            { emoji: '🌧️', text: 'Rainy day - time to focus indoors', condition: 'low' },
-            { emoji: '❄️', text: 'Winter productivity mode', condition: 'very-low' },
-            { emoji: '🌈', text: 'Rainbow after the storm - great work!', condition: 'excellent' }
+            { emoji: '☀️', text: 'Perfect productivity weather!' },
+            { emoji: '⛅', text: 'Partly cloudy but getting things done!' },
+            { emoji: '🌧️', text: 'Rainy day - time to focus indoors' },
+            { emoji: '❄️', text: 'Winter productivity mode' },
+            { emoji: '🌈', text: 'Rainbow after the storm - great work!' }
         ];
 
         // Animal visitors
         const animalVisitors = ['🦋', '🐿️', '🦉', '🐰', '🦔', '🦝', '🐻'];
 
-        // Motivational messages
-        const messages = [
-            "Your forest friend is getting stronger! 💪",
-            "Great job! Keep up the momentum! 🚀",
-            "You're on fire! Your companion is proud! 🔥",
-            "Fantastic progress! Level up! ⭐",
-            "Your productivity is growing like a mighty forest! 🌲",
-            "Howl! Another task conquered! 🦊",
-            "Your forest companion is evolving beautifully! 🌟",
-            "Keep nurturing your companion with completed tasks! 🍃"
-        ];
-
-        // Initialize app
-        function init() {
-            updateUI();
-            updateProjectTabs();
-            updateWeather();
-            updateAnimalVisitors();
-            setupEventListeners();
-        }
-
-        function setupEventListeners() {
-            // Task input
-            const addBtn = document.getElementById('addTaskBtn');
-            const taskInput = document.getElementById('taskInput');
-            
-            if (addBtn) {
-                addBtn.addEventListener('click', addTask);
-            }
-            
-            if (taskInput) {
-                taskInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') addTask();
-                });
-            }
-            
-            const forestCreature = document.getElementById('forestCreature');
-            if (forestCreature) {
-                forestCreature.addEventListener('click', petCreature);
-            }
-
-            // Category input - update subcategory suggestions when category changes
-            const projectInput = document.getElementById('projectInput');
-            if (projectInput) {
-                projectInput.addEventListener('input', function() {
-                    updateSubcategorySuggestions(this.value, 'subcategoryDatalist');
-                });
-            }
-
-            // Priority buttons and edit/delete - use event delegation
-            document.addEventListener('click', function(e) {
-                // Handle priority buttons
-                if (e.target.closest('.priority-btn')) {
-                    const btn = e.target.closest('.priority-btn');
-                    const container = btn.closest('.priority-buttons');
-                    if (container) {
-                        container.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                    }
-                }
-                
-                // Handle edit buttons
-                if (e.target.classList.contains('edit-btn') || e.target.closest('.edit-btn')) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const editBtn = e.target.classList.contains('edit-btn') ? e.target : e.target.closest('.edit-btn');
-                    const taskId = parseInt(editBtn.getAttribute('data-task-id'));
-                    if (taskId) {
-                        editTask(taskId);
-                    }
-                }
-                
-                // Handle delete buttons
-                if (e.target.classList.contains('delete-btn') || e.target.closest('.delete-btn')) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const deleteBtn = e.target.classList.contains('delete-btn') ? e.target : e.target.closest('.delete-btn');
-                    const taskId = parseInt(deleteBtn.getAttribute('data-task-id'));
-                    if (taskId && confirm('Delete this task?')) {
-                        deleteTask(taskId);
-                    }
-                }
-            });
-
-            // Points slider
-            const pointsSlider = document.getElementById('pointsSlider');
-            const effortDisplay = document.getElementById('effortDisplay');
-            
-            if (pointsSlider && effortDisplay) {
-                pointsSlider.addEventListener('input', function() {
-                    updateEffortDisplay(this.value, effortDisplay);
-                });
-            }
-        }
-
-        function updateEffortDisplay(value, displayElement) {
-            const effortLevels = {
-                1: 'Quick Task',
-                2: 'Quick Task',
-                3: 'Medium Task', 
-                4: 'Medium Task',
-                5: 'Big Task',
-                6: 'Big Task',
-                7: 'Big Task',
-                8: 'Major Project',
-                9: 'Major Project',
-                10: 'Epic Quest'
-            };
-            displayElement.textContent = effortLevels[value] || 'Quick Task';
-        }
-
-        function updateSubcategorySuggestions(category, datalistId) {
-            const datalist = document.getElementById(datalistId);
-            if (!datalist) return;
-            
-            datalist.innerHTML = '';
-            
-            if (category && categorySubcategories[category]) {
-                categorySubcategories[category].forEach(subcategory => {
-                    const option = document.createElement('option');
-                    option.value = subcategory;
-                    datalist.appendChild(option);
-                });
-            }
-        }
-
-        function learnCategorySubcategory(category, subcategory) {
-            if (!category || !subcategory) return;
-            
-            if (!categorySubcategories[category]) {
-                categorySubcategories[category] = [];
-            }
-            
-            // Add subcategory if it doesn't exist
-            if (!categorySubcategories[category].includes(subcategory)) {
-                categorySubcategories[category].push(subcategory);
-                // Keep subcategories sorted
-                categorySubcategories[category].sort();
-            }
-        }
-
-        function saveToStorage() {
-            localStorage.setItem('forestTasks', JSON.stringify(tasks));
-            localStorage.setItem('currentTaskId', currentTaskId.toString());
-            localStorage.setItem('completedTasksCount', completedTasksCount.toString());
-            localStorage.setItem('mustDoStreak', mustDoStreak.toString());
-            localStorage.setItem('level', level.toString());
-            localStorage.setItem('totalPoints', totalPoints.toString());
-            localStorage.setItem('categorySubcategories', JSON.stringify(categorySubcategories));
-        }
-
         function addTask() {
-            const taskText = document.getElementById('taskInput').value.trim();
+            const taskInput = document.getElementById('taskInput');
+            const taskText = taskInput.value.trim();
+            
+            if (!taskText) return;
+
+            // Get project and subcategory
             let project = document.getElementById('projectInput').value.trim() || 'General';
             const subcategory = document.getElementById('subcategoryInput').value.trim();
             
-            // Learn the category-subcategory relationship
+            // Learn category-subcategory relationship
             if (subcategory) {
                 learnCategorySubcategory(project, subcategory);
                 project = `${project} > ${subcategory}`;
             }
-            
-            // Get selected priority from active button
-            const activePriorityBtn = document.querySelector('.priority-buttons .priority-btn.active');
+
+            // Get selected priority
+            const activePriorityBtn = document.querySelector('.priority-btn.active');
             const priority = activePriorityBtn ? activePriorityBtn.dataset.priority : 'must-do';
             
+            // Get effort points
             const points = parseInt(document.getElementById('pointsSlider').value) || 1;
-            
-            if (!taskText) return;
 
             const task = {
                 id: currentTaskId++,
@@ -1262,30 +820,32 @@
                 priority: priority,
                 points: points,
                 completed: false,
-                createdAt: new Date().toISOString(),
-                completedAt: null
+                createdAt: new Date().toISOString()
             };
 
             tasks.push(task);
-            
-            // Clear inputs and reset to defaults
-            document.getElementById('taskInput').value = '';
+            taskInput.value = '';
             document.getElementById('projectInput').value = '';
             document.getElementById('subcategoryInput').value = '';
-            document.getElementById('pointsSlider').value = 1;
-            updateEffortDisplay(1, document.getElementById('effortDisplay'));
             
-            // Reset priority buttons to must-do
-            document.querySelectorAll('.priority-buttons .priority-btn').forEach(btn => {
+            // Reset to defaults
+            document.getElementById('pointsSlider').value = 1;
+            updateEffortDisplay(1);
+            
+            // Reset priority to must-do
+            document.querySelectorAll('.priority-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.dataset.priority === 'must-do') {
                     btn.classList.add('active');
                 }
             });
             
-            saveToStorage();
-            updateUI();
+            updateTasksList();
+            updateStats();
             updateProjectTabs();
+            updateWeather();
+            updateAnimalVisitors();
+            updateWeeklyProgress();
         }
 
         function toggleTask(taskId) {
@@ -1294,200 +854,56 @@
 
             const wasCompleted = task.completed;
             task.completed = !task.completed;
-            task.completedAt = task.completed ? new Date().toISOString() : null;
 
             if (!wasCompleted && task.completed) {
                 // Task completed
-                completedTasksCount++;
                 totalPoints += task.points;
+                
+                // Check for level up
+                const newLevel = Math.floor(totalPoints / 25) + 1;
+                if (newLevel > level) {
+                    level = newLevel;
+                    updateBuddy();
+                }
                 
                 // Update must-do streak
                 if (task.priority === 'must-do') {
                     updateMustDoStreak();
                 }
                 
-                // Check for level up
-                const xpNeeded = getXPForLevel(level + 1);
-                if (totalPoints >= xpNeeded) {
-                    level++;
-                    showMotivationalMessage();
-                    animateCreature();
-                }
-                
                 animateCreature();
             } else if (wasCompleted && !task.completed) {
                 // Task uncompleted
-                completedTasksCount--;
                 totalPoints = Math.max(0, totalPoints - task.points);
-                
-                // Recalculate must-do streak
+                level = Math.max(1, Math.floor(totalPoints / 25) + 1);
                 updateMustDoStreak();
-                
-                // Check for level down
-                if (totalPoints < getXPForLevel(level)) {
-                    level = Math.max(1, level - 1);
-                }
             }
-
-            saveToStorage();
-            updateUI();
+            
+            updateTasksList();
+            updateStats();
+            updateProjectTabs();
             updateWeather();
             updateAnimalVisitors();
+            updateWeeklyProgress();
+            updateBuddy();
         }
 
         function updateMustDoStreak() {
-            // Get this week's must-do tasks
             const thisWeekStart = getWeekStart();
-            const thisWeekTasks = tasks.filter(task => {
+            const thisWeekMustDos = tasks.filter(task => {
                 return task.priority === 'must-do' && 
                        new Date(task.createdAt) >= thisWeekStart;
             });
             
-            const completedThisWeek = thisWeekTasks.filter(task => task.completed);
+            const completedMustDos = thisWeekMustDos.filter(task => task.completed);
             
-            if (thisWeekTasks.length === 0) {
+            if (thisWeekMustDos.length === 0) {
                 mustDoStreak = 0;
-            } else if (completedThisWeek.length === thisWeekTasks.length) {
-                // All must-dos completed this week
+            } else if (completedMustDos.length === thisWeekMustDos.length) {
                 mustDoStreak++;
             } else {
                 mustDoStreak = 0;
             }
-        }
-
-        function deleteTask(taskId) {
-            const taskIndex = tasks.findIndex(t => t.id === taskId);
-            if (taskIndex === -1) return;
-
-            const task = tasks[taskIndex];
-            if (task.completed) {
-                completedTasksCount--;
-                totalPoints = Math.max(0, totalPoints - task.points);
-                updateMustDoStreak();
-                
-                if (totalPoints < getXPForLevel(level)) {
-                    level = Math.max(1, level - 1);
-                }
-            }
-
-            tasks.splice(taskIndex, 1);
-            saveToStorage();
-            updateUI();
-            updateProjectTabs();
-            updateWeather();
-            updateAnimalVisitors();
-        }
-
-        function editTask(taskId) {
-            const task = tasks.find(t => t.id === taskId);
-            if (!task) return;
-
-            editingTaskId = taskId;
-            
-            // Show modal first
-            document.getElementById('editModal').style.display = 'flex';
-            
-            // Then populate fields
-            setTimeout(() => {
-                document.getElementById('editTaskText').value = task.text;
-                
-                // Split project and subcategory
-                const projectParts = task.project.split(' > ');
-                document.getElementById('editTaskProject').value = projectParts[0] || '';
-                document.getElementById('editTaskSubcategory').value = projectParts[1] || '';
-                
-                // Update subcategory suggestions for this category
-                updateSubcategorySuggestions(projectParts[0] || '', 'editSubcategoryDatalist');
-                
-                // Set priority buttons
-                document.querySelectorAll('#editPriorityButtons .priority-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.dataset.priority === task.priority) {
-                        btn.classList.add('active');
-                    }
-                });
-                
-                // Set points slider
-                document.getElementById('editPointsSlider').value = task.points;
-                updateEffortDisplay(task.points, document.getElementById('editEffortDisplay'));
-                
-                // Add event listener for edit category input
-                document.getElementById('editTaskProject').addEventListener('input', function() {
-                    updateSubcategorySuggestions(this.value, 'editSubcategoryDatalist');
-                });
-                
-                // Add event listener for edit points slider
-                document.getElementById('editPointsSlider').addEventListener('input', function() {
-                    updateEffortDisplay(this.value, document.getElementById('editEffortDisplay'));
-                });
-            }, 50);
-        }
-
-        function saveEdit() {
-            const task = tasks.find(t => t.id === editingTaskId);
-            if (!task) return;
-
-            const newText = document.getElementById('editTaskText').value.trim();
-            let newProject = document.getElementById('editTaskProject').value.trim() || 'General';
-            const newSubcategory = document.getElementById('editTaskSubcategory').value.trim();
-            
-            // Learn the category-subcategory relationship
-            if (newSubcategory) {
-                learnCategorySubcategory(newProject, newSubcategory);
-                newProject = `${newProject} > ${newSubcategory}`;
-            }
-            
-            // Get selected priority from active button
-            const activeEditBtn = document.querySelector('#editPriorityButtons .priority-btn.active');
-            const newPriority = activeEditBtn ? activeEditBtn.dataset.priority : 'must-do';
-            
-            const newPoints = parseInt(document.getElementById('editPointsSlider').value) || 1;
-
-            if (!newText) return;
-
-            // Update points if task is completed
-            if (task.completed) {
-                totalPoints = totalPoints - task.points + newPoints;
-            }
-
-            task.text = newText;
-            task.project = newProject;
-            task.priority = newPriority;
-            task.points = newPoints;
-
-            cancelEdit();
-            saveToStorage();
-            updateUI();
-            updateProjectTabs();
-        }
-
-        function cancelEdit() {
-            document.getElementById('editModal').style.display = 'none';
-            editingTaskId = null;
-        }
-
-        function filterByProject(project) {
-            currentProjectFilter = project;
-            updateUI();
-            
-            // Update active tab
-            document.querySelectorAll('.project-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-        }
-
-        function getXPForLevel(targetLevel) {
-            return targetLevel * 25;
-        }
-
-        function getCurrentCreatureStage() {
-            for (let i = creatureStages.length - 1; i >= 0; i--) {
-                if (level >= creatureStages[i].minLevel) {
-                    return creatureStages[i];
-                }
-            }
-            return creatureStages[0];
         }
 
         function getWeekStart() {
@@ -1572,7 +988,7 @@
                 dayDate.setDate(thisWeekStart.getDate() + i);
                 
                 const dayTasks = tasks.filter(task => {
-                    const taskDate = new Date(task.completedAt || task.createdAt);
+                    const taskDate = new Date(task.createdAt);
                     return taskDate.toDateString() === dayDate.toDateString() && task.completed;
                 });
                 
@@ -1596,70 +1012,58 @@
             document.getElementById('weeklyMustDoTotal').textContent = thisWeekMustDos.length;
         }
 
-        function updateUI() {
-            updateTasksList();
-            updateBuddy();
-            updateStats();
-            updateWeeklyProgress();
-        }
-
-        function updateTasksList() {
-            const tasksList = document.getElementById('tasksList');
-            const emptyState = document.getElementById('emptyState');
-            
-            const filteredTasks = currentProjectFilter ? 
-                tasks.filter(task => task.project === currentProjectFilter) : 
-                tasks;
-
-            if (filteredTasks.length === 0) {
-                tasksList.innerHTML = '';
-                emptyState.style.display = 'block';
-                return;
-            }
-
-            emptyState.style.display = 'none';
-            
-            tasksList.innerHTML = filteredTasks.map(task => `
-                <div class="task-item ${task.completed ? 'completed' : ''} ${task.priority}" data-task-id="${task.id}">
-                    <div class="task-content">
-                        <div class="task-checkbox ${task.completed ? 'checked' : ''}" 
-                             onclick="toggleTask(${task.id})"></div>
-                        <div class="task-details">
-                            <div class="task-text ${task.completed ? 'completed' : ''}">${task.text}</div>
-                            <div class="task-meta">
-                                <div class="task-project">${task.project}</div>
-                                <div class="task-priority priority-${task.priority}">${task.priority.replace('-', ' ')}</div>
-                                <div class="task-points">${task.points} pts</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="task-actions">
-                        <button class="edit-btn" data-task-id="${task.id}">✏️</button>
-                        <button class="delete-btn" data-task-id="${task.id}">🗑️</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
         function updateBuddy() {
             const forestCreature = document.getElementById('forestCreature');
             const creatureName = document.getElementById('creatureName');
-            const currentStage = getCurrentCreatureStage();
+            
+            // Find current stage
+            let currentStage = creatureStages[0];
+            for (let i = creatureStages.length - 1; i >= 0; i--) {
+                if (level >= creatureStages[i].minLevel) {
+                    currentStage = creatureStages[i];
+                    break;
+                }
+            }
             
             forestCreature.textContent = currentStage.emoji;
             creatureName.textContent = currentStage.name;
         }
 
-        function updateStats() {
-            document.getElementById('level').textContent = level;
-            document.getElementById('totalPoints').textContent = totalPoints;
-            document.getElementById('completedCount').textContent = completedTasksCount;
-            document.getElementById('mustDoStreak').textContent = mustDoStreak;
-            document.getElementById('currentXP').textContent = totalPoints;
-            document.getElementById('nextLevelXP').textContent = getXPForLevel(level + 1);
+        function learnCategorySubcategory(category, subcategory) {
+            if (!category || !subcategory) return;
             
-            const progressPercent = Math.min(100, (totalPoints / getXPForLevel(level + 1)) * 100);
-            document.getElementById('progressFill').style.width = progressPercent + '%';
+            if (!categorySubcategories[category]) {
+                categorySubcategories[category] = [];
+            }
+            
+            if (!categorySubcategories[category].includes(subcategory)) {
+                categorySubcategories[category].push(subcategory);
+                categorySubcategories[category].sort();
+            }
+        }
+
+        function updateSubcategorySuggestions(category) {
+            const datalist = document.getElementById('subcategoryDatalist');
+            datalist.innerHTML = '';
+            
+            if (category && categorySubcategories[category]) {
+                categorySubcategories[category].forEach(subcategory => {
+                    const option = document.createElement('option');
+                    option.value = subcategory;
+                    datalist.appendChild(option);
+                });
+            }
+        }
+
+        function filterByProject(project) {
+            currentProjectFilter = project;
+            updateTasksList();
+            
+            // Update active tab
+            document.querySelectorAll('.project-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
         }
 
         function updateProjectTabs() {
@@ -1670,7 +1074,7 @@
             projectTabs.innerHTML = `
                 <div class="project-tab ${currentProjectFilter === '' ? 'active' : ''}" onclick="filterByProject('')">
                     🌍 All Categories
-                    <div class="project-progress" id="allProgress">0</div>
+                    <div class="project-progress" id="allProgress">0%</div>
                 </div>
             `;
             
@@ -1695,32 +1099,96 @@
             document.getElementById('allProgress').textContent = allProgress + '%';
         }
 
+        function updateTasksList() {
+            const tasksList = document.getElementById('tasksList');
+            const emptyState = document.getElementById('emptyState');
+            
+            const filteredTasks = currentProjectFilter ? 
+                tasks.filter(task => task.project === currentProjectFilter) : 
+                tasks;
+            
+            if (filteredTasks.length === 0) {
+                tasksList.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            
+            tasksList.innerHTML = filteredTasks.map(task => `
+                <div class="task-item">
+                    <div class="task-content">
+                        <div class="task-checkbox ${task.completed ? 'checked' : ''}" 
+                             onclick="toggleTask(${task.id})"></div>
+                        <div>
+                            <div class="task-text">${task.text}</div>
+                            <div style="margin-top: 5px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                <span style="background: #d4b5a0; padding: 2px 8px; border-radius: 12px; font-size: 10px; color: #5a5a5a;">${task.project}</span>
+                                <span style="background: #e8f5e8; padding: 2px 8px; border-radius: 12px; font-size: 10px; color: #2e7d32;">${task.priority.replace('-', ' ')}</span>
+                                <span style="background: #fff3e0; padding: 2px 8px; border-radius: 12px; font-size: 10px; color: #f57c00;">${task.points} pts</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-actions">
+                        <button class="edit-btn" onclick="editTask(${task.id})">✏️</button>
+                        <button class="delete-btn" onclick="deleteTask(${task.id})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateStats() {
+            document.getElementById('level').textContent = level;
+            document.getElementById('totalPoints').textContent = totalPoints;
+            document.getElementById('completedCount').textContent = tasks.filter(t => t.completed).length;
+            document.getElementById('mustDoStreak').textContent = mustDoStreak;
+        }
+
+        function updateEffortDisplay(value) {
+            const effortLevels = {
+                1: 'Quick Task', 2: 'Quick Task', 3: 'Medium Task', 4: 'Medium Task',
+                5: 'Big Task', 6: 'Big Task', 7: 'Big Task', 8: 'Major Project',
+                9: 'Major Project', 10: 'Epic Quest'
+            };
+            document.getElementById('effortDisplay').textContent = effortLevels[value] || 'Quick Task';
+        }
+
         function animateCreature() {
             const creature = document.getElementById('forestCreature');
             creature.classList.add('happy');
             setTimeout(() => creature.classList.remove('happy'), 600);
         }
 
-        function petCreature() {
-            animateCreature();
-            showMotivationalMessage();
-        }
+        // Initialize
+        document.getElementById('addTaskBtn').addEventListener('click', addTask);
+        document.getElementById('taskInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') addTask();
+        });
+        document.getElementById('forestCreature').addEventListener('click', animateCreature);
 
-        function showMotivationalMessage() {
-            const messageEl = document.getElementById('motivationalMessage');
-            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-            messageEl.textContent = randomMessage;
-            
-            messageEl.style.animation = 'none';
-            setTimeout(() => {
-                messageEl.style.animation = 'bounce 0.6s ease';
-            }, 10);
-        }
+        // Category input handler
+        document.getElementById('projectInput').addEventListener('input', function() {
+            updateSubcategorySuggestions(this.value);
+        });
 
-        function recalculateStats() {
-            // Recalculate all stats from current tasks
-            const completedTasks = tasks.filter(task => task.completed);
-            completedTasksCount = completedTasks.length;
-            totalPoints = completedTasks.reduce((sum, task) => sum + (task.points || 1), 0);
-            
-            // Rec
+        // Priority button handlers
+        document.querySelectorAll('.priority-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Points slider handler
+        document.getElementById('pointsSlider').addEventListener('input', function() {
+            updateEffortDisplay(parseInt(this.value));
+        });
+
+        updateTasksList();
+        updateProjectTabs();
+        updateWeather();
+        updateAnimalVisitors();
+        updateWeeklyProgress();
+    </script>
+</body>
+</html>
