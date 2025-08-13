@@ -823,8 +823,17 @@
         <div class="edit-modal-content">
             <h3>Edit Task</h3>
             <input type="text" id="editTaskText" class="edit-input" placeholder="✨ Update your adventure">
-            <input type="text" id="editTaskProject" class="edit-input" placeholder="🗂️ Category">
-            <input type="text" id="editTaskSubcategory" class="edit-input subcategory-input" placeholder="📂 Sub-category (optional)">
+            <input type="text" id="editTaskProject" class="edit-input" placeholder="🗂️ Category" list="editCategoryDatalist">
+            <datalist id="editCategoryDatalist">
+                <option value="Admin">
+                <option value="Communication">
+                <option value="Development">
+                <option value="Meeting Prep">
+                <option value="Personal">
+                <option value="Projects">
+            </datalist>
+            <input type="text" id="editTaskSubcategory" class="edit-input subcategory-input" placeholder="📂 Sub-category (optional)" list="editSubcategoryDatalist">
+            <datalist id="editSubcategoryDatalist"></datalist>
             
             <div class="edit-priority-buttons" id="editPriorityButtons">
                 <button type="button" class="priority-btn" data-priority="must-do">
@@ -894,6 +903,10 @@
             const projectParts = task.project.split(' > ');
             document.getElementById('editTaskProject').value = projectParts[0] || '';
             document.getElementById('editTaskSubcategory').value = projectParts[1] || '';
+            
+            // Update subcategory suggestions for edit modal
+            const editProjectParts = task.project.split(' > ');
+            updateEditSubcategorySuggestions(editProjectParts[0] || '');
             
             // Set priority buttons
             document.querySelectorAll('#editPriorityButtons .priority-btn').forEach(btn => {
@@ -1079,12 +1092,12 @@
             { emoji: '👑🌲', name: 'Forest Ruler', minLevel: 25 }
         ];
 
-        // Weather patterns
+        // Weather patterns - improved messages
         const weatherPatterns = [
             { emoji: '☀️', text: 'Perfect productivity weather!' },
             { emoji: '⛅', text: 'Partly cloudy but getting things done!' },
             { emoji: '🌧️', text: 'Rainy day - time to focus indoors' },
-            { emoji: '❄️', text: 'Winter productivity mode' },
+            { emoji: '🌫️', text: 'Cloudy productivity day' },
             { emoji: '🌈', text: 'Rainbow after the storm - great work!' }
         ];
 
@@ -1234,7 +1247,7 @@
                 else if (completionRate >= 0.7) weatherIndex = 0; // Sunny
                 else if (completionRate >= 0.4) weatherIndex = 1; // Partly cloudy
                 else if (completionRate >= 0.2) weatherIndex = 2; // Rainy
-                else weatherIndex = 3; // Winter
+                else weatherIndex = 3; // Cloudy
             }
 
             const weather = weatherPatterns[weatherIndex];
@@ -1340,6 +1353,21 @@
             if (!categorySubcategories[category].includes(subcategory)) {
                 categorySubcategories[category].push(subcategory);
                 categorySubcategories[category].sort();
+            }
+        }
+
+        function updateEditSubcategorySuggestions(category) {
+            const datalist = document.getElementById('editSubcategoryDatalist');
+            if (!datalist) return;
+            
+            datalist.innerHTML = '';
+            
+            if (category && categorySubcategories[category]) {
+                categorySubcategories[category].forEach(subcategory => {
+                    const option = document.createElement('option');
+                    option.value = subcategory;
+                    datalist.appendChild(option);
+                });
             }
         }
 
@@ -1470,6 +1498,13 @@
         // Category input handler
         document.getElementById('projectInput').addEventListener('input', function() {
             updateSubcategorySuggestions(this.value);
+        });
+
+        // Edit modal category input handler
+        document.addEventListener('input', function(e) {
+            if (e.target.id === 'editTaskProject') {
+                updateEditSubcategorySuggestions(e.target.value);
+            }
         });
 
         // Priority button handlers
