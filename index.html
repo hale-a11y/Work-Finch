@@ -1342,26 +1342,38 @@
             if (!task) return;
 
             editingTaskId = taskId;
-            document.getElementById('editTaskText').value = task.text;
             
-            // Split project and subcategory
-            const projectParts = task.project.split(' > ');
-            document.getElementById('editTaskProject').value = projectParts[0] || '';
-            document.getElementById('editTaskSubcategory').value = projectParts[1] || '';
-            
-            // Set priority buttons
-            document.querySelectorAll('.edit-priority-buttons .priority-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.priority === task.priority) {
-                    btn.classList.add('active');
-                }
-            });
-            
-            // Set points slider
-            document.getElementById('editPointsSlider').value = task.points;
-            updateEffortDisplay(task.points, document.getElementById('editEffortDisplay'));
-            
+            // Show modal first
             document.getElementById('editModal').style.display = 'flex';
+            
+            // Then populate fields (wait a tiny bit for modal to render)
+            setTimeout(() => {
+                document.getElementById('editTaskText').value = task.text;
+                
+                // Split project and subcategory
+                const projectParts = task.project.split(' > ');
+                document.getElementById('editTaskProject').value = projectParts[0] || '';
+                
+                const subcategoryField = document.getElementById('editTaskSubcategory');
+                if (subcategoryField) {
+                    subcategoryField.value = projectParts[1] || '';
+                }
+                
+                // Set priority buttons
+                document.querySelectorAll('.edit-priority-buttons .priority-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.priority === task.priority) {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                // Set points slider
+                const editSlider = document.getElementById('editPointsSlider');
+                if (editSlider) {
+                    editSlider.value = task.points;
+                    updateEffortDisplay(task.points, document.getElementById('editEffortDisplay'));
+                }
+            }, 50);
         }
 
         function saveEdit() {
