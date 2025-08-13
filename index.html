@@ -1092,15 +1092,46 @@
                 updateSubcategorySuggestions(this.value, 'editSubcategoryDatalist');
             });
 
-            // Priority buttons
-            document.querySelectorAll('.priority-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // Remove active class from all buttons in this group
-                    const container = this.closest('.priority-buttons') || this.closest('.edit-priority-buttons');
+            // Priority buttons - use event delegation to handle dynamically created buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.priority-btn')) {
+                    const btn = e.target.closest('.priority-btn');
+                    const container = btn.closest('.priority-buttons') || btn.closest('.edit-priority-buttons');
                     container.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active'));
-                    // Add active class to clicked button
-                    this.classList.add('active');
-                });
+                    btn.classList.add('active');
+                }
+                
+                // Handle edit buttons
+                if (e.target.closest('.edit-btn')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const taskItem = e.target.closest('.task-item');
+                    if (taskItem) {
+                        const editBtn = taskItem.querySelector('.edit-btn');
+                        const onclickAttr = editBtn.getAttribute('onclick');
+                        if (onclickAttr) {
+                            const taskId = onclickAttr.match(/editTask\((\d+)\)/)[1];
+                            editTask(parseInt(taskId));
+                        }
+                    }
+                }
+                
+                // Handle delete buttons
+                if (e.target.closest('.delete-btn')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const taskItem = e.target.closest('.task-item');
+                    if (taskItem) {
+                        const deleteBtn = taskItem.querySelector('.delete-btn');
+                        const onclickAttr = deleteBtn.getAttribute('onclick');
+                        if (onclickAttr) {
+                            const taskId = onclickAttr.match(/deleteTask\((\d+)\)/)[1];
+                            if (confirm('Delete this task?')) {
+                                deleteTask(parseInt(taskId));
+                            }
+                        }
+                    }
+                }
             });
 
             // Points slider
