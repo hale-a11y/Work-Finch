@@ -638,6 +638,10 @@
             margin-bottom: 20px;
         }
 
+        .edit-effort-section:hover .effort-tooltip {
+            opacity: 1;
+        }
+
         .edit-modal-actions {
             display: flex;
             gap: 10px;
@@ -823,7 +827,7 @@
         <div class="edit-modal-content">
             <h3>Edit Task</h3>
             <input type="text" id="editTaskText" class="edit-input" placeholder="✨ Update your adventure">
-            <input type="text" id="editTaskProject" class="edit-input" placeholder="🗂️ Category" list="editCategoryDatalist">
+            <input type="text" id="editTaskProject" class="edit-input" placeholder="🗂️ Category" list="editCategoryDatalist" autocomplete="off">
             <datalist id="editCategoryDatalist">
                 <option value="Admin">
                 <option value="Communication">
@@ -858,6 +862,15 @@
                 <input type="range" id="editPointsSlider" class="points-slider" min="1" max="10" value="1">
                 <div class="slider-markers">
                     <span>1</span><span>5</span><span>10</span>
+                </div>
+                <div class="effort-tooltip">
+                    <div class="tooltip-content">
+                        <strong>Time Guide:</strong><br>
+                        1-2 pts: Quick (5-15 min)<br>
+                        3-4 pts: Medium (30-60 min)<br>
+                        5-7 pts: Big (2-4 hours)<br>
+                        8-10 pts: Epic (full day+)
+                    </div>
                 </div>
             </div>
             
