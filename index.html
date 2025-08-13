@@ -21,7 +21,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -51,19 +51,49 @@
             font-size: 1.8em;
         }
 
-        .project-filter {
+        .project-tabs {
+            display: flex;
+            gap: 8px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
-        .project-filter select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #d4b5a0;
-            border-radius: 12px;
-            background: white;
-            font-family: 'DM Sans', sans-serif;
+        .project-tab {
+            padding: 8px 16px;
+            background: rgba(212, 181, 160, 0.3);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            cursor: pointer;
             font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .project-tab.active {
+            background: #d4b5a0;
             color: #5a5a5a;
+            border-color: #8b4513;
+        }
+
+        .project-tab:hover {
+            background: rgba(212, 181, 160, 0.5);
+        }
+
+        .project-progress {
+            font-size: 10px;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #8b4513;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
         }
 
         .task-input-section {
@@ -86,6 +116,12 @@
             background: white;
         }
 
+        .task-input-row-2 {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
         .project-input {
             width: 140px;
             padding: 12px;
@@ -94,6 +130,51 @@
             font-family: 'DM Sans', sans-serif;
             font-size: 14px;
             background: white;
+        }
+
+        .priority-select, .points-input {
+            width: 110px;
+            padding: 12px;
+            border: 2px solid #d4b5a0;
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            background: white;
+        }
+
+        .points-container {
+            position: relative;
+        }
+
+        .points-tooltip {
+            position: absolute;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            white-space: nowrap;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .points-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .points-container:hover .points-tooltip {
+            opacity: 1;
         }
 
         .add-btn {
@@ -106,6 +187,7 @@
             font-family: 'DM Sans', sans-serif;
             font-weight: 500;
             transition: all 0.3s ease;
+            width: 100%;
         }
 
         .add-btn:hover {
@@ -126,6 +208,19 @@
             border: 2px solid transparent;
             transition: all 0.3s ease;
             position: relative;
+            border-left: 5px solid #d4b5a0;
+        }
+
+        .task-item.must-do {
+            border-left: 5px solid #d32f2f;
+        }
+
+        .task-item.nice-to-do {
+            border-left: 5px solid #2e7d32;
+        }
+
+        .task-item.stretch-goal {
+            border-left: 5px solid #1976d2;
         }
 
         .task-item:hover {
@@ -187,6 +282,13 @@
             color: #999;
         }
 
+        .task-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
         .task-project {
             display: inline-block;
             background: #d4b5a0;
@@ -198,7 +300,38 @@
             white-space: normal;
             word-wrap: break-word;
             line-height: 1.3;
-            max-width: 100%;
+        }
+
+        .task-priority {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-must-do {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+
+        .priority-nice-to-do {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .priority-stretch-goal {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .task-points {
+            background: #fff3e0;
+            color: #f57c00;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
         }
 
         .task-actions {
@@ -241,24 +374,70 @@
             align-items: center;
         }
 
+        .weather-section {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .weather-display {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .weather-text {
+            font-size: 16px;
+            color: #8b4513;
+            font-weight: 500;
+        }
+
+        .weather-help {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
         .buddy-container {
             margin: 30px 0;
             position: relative;
         }
 
-        .dinosaur {
+        .forest-creature {
             font-size: 120px;
             transition: all 0.5s ease;
             cursor: pointer;
             user-select: none;
         }
 
-        .dinosaur:hover {
+        .forest-creature:hover {
             transform: scale(1.1) rotate(5deg);
         }
 
-        .dinosaur.happy {
+        .forest-creature.happy {
             animation: bounce 0.6s ease;
+        }
+
+        .animal-visitor {
+            position: absolute;
+            font-size: 40px;
+            animation: float 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .visitor-1 { top: -20px; right: 20px; animation-delay: 0s; }
+        .visitor-2 { top: 30px; left: -20px; animation-delay: 1s; }
+        .visitor-3 { bottom: -20px; right: -10px; animation-delay: 2s; }
+
+        .visitor-help {
+            font-size: 12px;
+            color: #8b4513;
+            margin-top: 10px;
+            font-style: italic;
+            text-align: center;
         }
 
         @keyframes bounce {
@@ -266,11 +445,17 @@
             50% { transform: translateY(-20px); }
         }
 
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
         .stats {
             background: rgba(255, 255, 255, 0.5);
             border-radius: 15px;
             padding: 20px;
             margin: 20px 0;
+            width: 100%;
         }
 
         .stat-item {
@@ -305,6 +490,57 @@
             transition: width 0.5s ease;
         }
 
+        .weekly-summary {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .week-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .week-day {
+            text-align: center;
+            font-size: 12px;
+            color: #8b4513;
+        }
+
+        .day-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e8e8e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px 0;
+            font-weight: 600;
+            font-size: 10px;
+        }
+
+        .day-circle.active {
+            background: #8b4513;
+            color: white;
+        }
+
+        .day-circle.partial {
+            background: #d4b5a0;
+            color: white;
+        }
+
+        .weekly-help {
+            font-size: 11px;
+            color: #999;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
         .motivational-message {
             margin-top: 20px;
             padding: 15px;
@@ -313,6 +549,7 @@
             font-style: italic;
             color: #8b4513;
             border-left: 4px solid #8b4513;
+            width: 100%;
         }
 
         .edit-modal {
@@ -353,6 +590,15 @@
             font-size: 14px;
         }
 
+        .edit-modal-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .edit-modal-row select, .edit-modal-row input {
+            flex: 1;
+        }
+
         .edit-modal-actions {
             display: flex;
             gap: 10px;
@@ -390,6 +636,7 @@
             padding: 20px;
             background: rgba(255, 255, 255, 0.5);
             border-radius: 15px;
+            width: 100%;
         }
 
         .export-btn {
@@ -417,11 +664,11 @@
                 gap: 20px;
             }
             
-            .task-input-row {
+            .task-input-row, .task-input-row-2 {
                 flex-direction: column;
             }
             
-            .project-input {
+            .project-input, .priority-select, .points-input {
                 width: 100%;
             }
         }
@@ -433,16 +680,36 @@
         <div class="panel tasks-panel">
             <h1>📋 My Tasks</h1>
             
-            <div class="project-filter">
-                <select id="projectFilter">
-                    <option value="">All Projects</option>
-                </select>
+            <div class="project-tabs" id="projectTabs">
+                <div class="project-tab active" onclick="filterByProject('')">
+                    All Projects
+                    <div class="project-progress" id="allProgress">0</div>
+                </div>
             </div>
 
             <div class="task-input-section">
                 <div class="task-input-row">
                     <input type="text" id="taskInput" class="task-input" placeholder="What needs to be done?" maxlength="100">
+                </div>
+                <div class="task-input-row-2">
                     <input type="text" id="projectInput" class="project-input" placeholder="Project" maxlength="20">
+                    <select id="prioritySelect" class="priority-select">
+                        <option value="must-do">Must-Do</option>
+                        <option value="nice-to-do">Nice-to-Do</option>
+                        <option value="stretch-goal">Stretch Goal</option>
+                    </select>
+                    <div class="points-container">
+                        <input type="number" id="pointsInput" class="points-input" placeholder="Points" min="1" max="10" value="1">
+                        <div class="points-tooltip" id="pointsTooltip">
+                            <div class="tooltip-content">
+                                <strong>Task Difficulty Guide:</strong><br>
+                                1-2 pts: Quick tasks (5-15 min)<br>
+                                3-4 pts: Medium tasks (30-60 min)<br>
+                                5-7 pts: Big tasks (2-4 hours)<br>
+                                8-10 pts: Major projects (full day+)
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <button id="addTaskBtn" class="add-btn">+ Add Task</button>
             </div>
@@ -459,9 +726,21 @@
         <div class="panel buddy-panel">
             <h1>🦊 Productivity Buddy</h1>
             
+            <div class="weather-section">
+                <div class="weather-display" id="weatherEmoji">☀️</div>
+                <div class="weather-text" id="weatherText">Perfect productivity weather!</div>
+                <div class="weather-help">🌤️ Weather changes based on your weekly completion rate</div>
+            </div>
+            
             <div class="buddy-container">
-                <div id="dinosaur" class="dinosaur">🌰</div>
-                <div id="dinosaurName" style="font-size: 18px; font-weight: 600; color: #8b4513; margin-top: 10px;">Forest Seed</div>
+                <div id="forestCreature" class="forest-creature">🌰</div>
+                <div id="creatureName" style="font-size: 18px; font-weight: 600; color: #8b4513; margin-top: 10px;">Forest Seed</div>
+                
+                <!-- Animal visitors -->
+                <div id="animalVisitors"></div>
+                <div class="visitor-help" id="visitorHelp" style="display: none;">
+                    🎉 Forest friends visit when you complete all must-do tasks!
+                </div>
             </div>
 
             <div class="stats">
@@ -470,19 +749,34 @@
                     <span class="stat-value" id="level">1</span>
                 </div>
                 <div class="stat-item">
+                    <span class="stat-label">Total Points:</span>
+                    <span class="stat-value" id="totalPoints">0</span>
+                </div>
+                <div class="stat-item">
                     <span class="stat-label">Tasks Completed:</span>
                     <span class="stat-value" id="completedCount">0</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">Current Streak:</span>
-                    <span class="stat-value" id="streak">0</span>
+                    <span class="stat-label">Must-Do Streak:</span>
+                    <span class="stat-value" id="mustDoStreak">0</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">Experience:</span>
-                    <span class="stat-value"><span id="currentXP">0</span>/<span id="nextLevelXP">10</span></span>
+                    <span class="stat-value"><span id="currentXP">0</span>/<span id="nextLevelXP">25</span></span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="weekly-summary">
+                <h3 style="color: #8b4513; margin-bottom: 15px; font-size: 1.1em;">This Week</h3>
+                <div class="week-progress" id="weekProgress"></div>
+                <div style="font-size: 14px; color: #5a5a5a; margin-top: 10px;">
+                    <strong id="weeklyMustDoComplete">0</strong> of <strong id="weeklyMustDoTotal">0</strong> must-do tasks completed
+                </div>
+                <div class="weekly-help">
+                    Complete 3+ tasks per day to fill the circles! 🎯
                 </div>
             </div>
 
@@ -508,6 +802,14 @@
             <h3>Edit Task</h3>
             <input type="text" id="editTaskText" placeholder="Task description">
             <input type="text" id="editTaskProject" placeholder="Project">
+            <div class="edit-modal-row">
+                <select id="editTaskPriority">
+                    <option value="must-do">Must-Do</option>
+                    <option value="nice-to-do">Nice-to-Do</option>
+                    <option value="stretch-goal">Stretch Goal</option>
+                </select>
+                <input type="number" id="editTaskPoints" placeholder="Points" min="1" max="10">
+            </div>
             <div class="edit-modal-actions">
                 <button class="cancel-btn" onclick="cancelEdit()">Cancel</button>
                 <button class="save-btn" onclick="saveEdit()">Save</button>
@@ -517,23 +819,36 @@
 
     <script>
         // App State
-        let tasks = [];
-        let currentTaskId = 1;
-        let completedTasksCount = 0;
-        let currentStreak = 0;
-        let level = 1;
-        let experience = 0;
+        let tasks = JSON.parse(localStorage.getItem('forestTasks')) || [];
+        let currentTaskId = parseInt(localStorage.getItem('currentTaskId')) || 1;
+        let completedTasksCount = parseInt(localStorage.getItem('completedTasksCount')) || 0;
+        let mustDoStreak = parseInt(localStorage.getItem('mustDoStreak')) || 0;
+        let level = parseInt(localStorage.getItem('level')) || 1;
+        let totalPoints = parseInt(localStorage.getItem('totalPoints')) || 0;
         let editingTaskId = null;
+        let currentProjectFilter = '';
 
         // Forest creature evolution stages
-        const dinosaurStages = [
+        const creatureStages = [
             { emoji: '🌰', name: 'Forest Seed', minLevel: 1 },
-            { emoji: '🦊', name: 'Fox Kit', minLevel: 2 },
-            { emoji: '🐺', name: 'Young Wolf', minLevel: 4 },
-            { emoji: '🦌', name: 'Forest Deer', minLevel: 7 },
-            { emoji: '🧚‍♀️', name: 'Forest Guardian', minLevel: 12 },
-            { emoji: '👑🌲', name: 'Forest Ruler', minLevel: 20 }
+            { emoji: '🦊', name: 'Fox Kit', minLevel: 3 },
+            { emoji: '🐺', name: 'Young Wolf', minLevel: 6 },
+            { emoji: '🦌', name: 'Forest Deer', minLevel: 10 },
+            { emoji: '🧚‍♀️', name: 'Forest Guardian', minLevel: 15 },
+            { emoji: '👑🌲', name: 'Forest Ruler', minLevel: 25 }
         ];
+
+        // Weather patterns
+        const weatherPatterns = [
+            { emoji: '☀️', text: 'Perfect productivity weather!', condition: 'high' },
+            { emoji: '⛅', text: 'Partly cloudy but getting things done!', condition: 'medium' },
+            { emoji: '🌧️', text: 'Rainy day - time to focus indoors', condition: 'low' },
+            { emoji: '❄️', text: 'Winter productivity mode', condition: 'very-low' },
+            { emoji: '🌈', text: 'Rainbow after the storm - great work!', condition: 'excellent' }
+        ];
+
+        // Animal visitors
+        const animalVisitors = ['🦋', '🐿️', '🦉', '🐰', '🦔', '🦝', '🐻'];
 
         // Motivational messages
         const messages = [
@@ -550,20 +865,32 @@
         // Initialize app
         function init() {
             updateUI();
-            updateProjectFilter();
+            updateProjectTabs();
+            updateWeather();
+            updateAnimalVisitors();
             
             // Event listeners
             document.getElementById('addTaskBtn').addEventListener('click', addTask);
             document.getElementById('taskInput').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') addTask();
             });
-            document.getElementById('projectFilter').addEventListener('change', filterTasks);
-            document.getElementById('dinosaur').addEventListener('click', petDinosaur);
+            document.getElementById('forestCreature').addEventListener('click', petCreature);
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('forestTasks', JSON.stringify(tasks));
+            localStorage.setItem('currentTaskId', currentTaskId.toString());
+            localStorage.setItem('completedTasksCount', completedTasksCount.toString());
+            localStorage.setItem('mustDoStreak', mustDoStreak.toString());
+            localStorage.setItem('level', level.toString());
+            localStorage.setItem('totalPoints', totalPoints.toString());
         }
 
         function addTask() {
             const taskText = document.getElementById('taskInput').value.trim();
             const project = document.getElementById('projectInput').value.trim() || 'General';
+            const priority = document.getElementById('prioritySelect').value;
+            const points = parseInt(document.getElementById('pointsInput').value) || 1;
             
             if (!taskText) return;
 
@@ -571,16 +898,24 @@
                 id: currentTaskId++,
                 text: taskText,
                 project: project,
+                priority: priority,
+                points: points,
                 completed: false,
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
+                completedAt: null
             };
 
             tasks.push(task);
+            
+            // Clear inputs
             document.getElementById('taskInput').value = '';
             document.getElementById('projectInput').value = '';
+            document.getElementById('prioritySelect').value = 'must-do';
+            document.getElementById('pointsInput').value = '1';
             
+            saveToStorage();
             updateUI();
-            updateProjectFilter();
+            updateProjectTabs();
         }
 
         function toggleTask(taskId) {
@@ -589,35 +924,65 @@
 
             const wasCompleted = task.completed;
             task.completed = !task.completed;
+            task.completedAt = task.completed ? new Date().toISOString() : null;
 
             if (!wasCompleted && task.completed) {
                 // Task completed
                 completedTasksCount++;
-                currentStreak++;
-                experience += 10;
+                totalPoints += task.points;
+                
+                // Update must-do streak
+                if (task.priority === 'must-do') {
+                    updateMustDoStreak();
+                }
                 
                 // Check for level up
                 const xpNeeded = getXPForLevel(level + 1);
-                if (experience >= xpNeeded) {
+                if (totalPoints >= xpNeeded) {
                     level++;
                     showMotivationalMessage();
-                    animateDinosaur();
+                    animateCreature();
                 }
                 
-                animateDinosaur();
+                animateCreature();
             } else if (wasCompleted && !task.completed) {
                 // Task uncompleted
                 completedTasksCount--;
-                currentStreak = Math.max(0, currentStreak - 1);
-                experience = Math.max(0, experience - 10);
+                totalPoints = Math.max(0, totalPoints - task.points);
+                
+                // Recalculate must-do streak
+                updateMustDoStreak();
                 
                 // Check for level down
-                if (experience < getXPForLevel(level)) {
+                if (totalPoints < getXPForLevel(level)) {
                     level = Math.max(1, level - 1);
                 }
             }
 
+            saveToStorage();
             updateUI();
+            updateWeather();
+            updateAnimalVisitors();
+        }
+
+        function updateMustDoStreak() {
+            // Get this week's must-do tasks
+            const thisWeekStart = getWeekStart();
+            const thisWeekTasks = tasks.filter(task => {
+                return task.priority === 'must-do' && 
+                       new Date(task.createdAt) >= thisWeekStart;
+            });
+            
+            const completedThisWeek = thisWeekTasks.filter(task => task.completed);
+            
+            if (thisWeekTasks.length === 0) {
+                mustDoStreak = 0;
+            } else if (completedThisWeek.length === thisWeekTasks.length) {
+                // All must-dos completed this week
+                mustDoStreak++;
+            } else {
+                mustDoStreak = 0;
+            }
         }
 
         function deleteTask(taskId) {
@@ -627,17 +992,20 @@
             const task = tasks[taskIndex];
             if (task.completed) {
                 completedTasksCount--;
-                experience = Math.max(0, experience - 10);
-                currentStreak = Math.max(0, currentStreak - 1);
+                totalPoints = Math.max(0, totalPoints - task.points);
+                updateMustDoStreak();
                 
-                if (experience < getXPForLevel(level)) {
+                if (totalPoints < getXPForLevel(level)) {
                     level = Math.max(1, level - 1);
                 }
             }
 
             tasks.splice(taskIndex, 1);
+            saveToStorage();
             updateUI();
-            updateProjectFilter();
+            updateProjectTabs();
+            updateWeather();
+            updateAnimalVisitors();
         }
 
         function editTask(taskId) {
@@ -647,6 +1015,8 @@
             editingTaskId = taskId;
             document.getElementById('editTaskText').value = task.text;
             document.getElementById('editTaskProject').value = task.project;
+            document.getElementById('editTaskPriority').value = task.priority;
+            document.getElementById('editTaskPoints').value = task.points;
             document.getElementById('editModal').style.display = 'flex';
         }
 
@@ -656,15 +1026,25 @@
 
             const newText = document.getElementById('editTaskText').value.trim();
             const newProject = document.getElementById('editTaskProject').value.trim() || 'General';
+            const newPriority = document.getElementById('editTaskPriority').value;
+            const newPoints = parseInt(document.getElementById('editTaskPoints').value) || 1;
 
             if (!newText) return;
 
+            // Update points if task is completed
+            if (task.completed) {
+                totalPoints = totalPoints - task.points + newPoints;
+            }
+
             task.text = newText;
             task.project = newProject;
+            task.priority = newPriority;
+            task.points = newPoints;
 
             cancelEdit();
+            saveToStorage();
             updateUI();
-            updateProjectFilter();
+            updateProjectTabs();
         }
 
         function cancelEdit() {
@@ -672,32 +1052,149 @@
             editingTaskId = null;
         }
 
-        function getXPForLevel(targetLevel) {
-            return targetLevel * 10;
+        function filterByProject(project) {
+            currentProjectFilter = project;
+            updateUI();
+            
+            // Update active tab
+            document.querySelectorAll('.project-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
         }
 
-        function getCurrentDinosaurStage() {
-            for (let i = dinosaurStages.length - 1; i >= 0; i--) {
-                if (level >= dinosaurStages[i].minLevel) {
-                    return dinosaurStages[i];
+        function getXPForLevel(targetLevel) {
+            return targetLevel * 25;
+        }
+
+        function getCurrentCreatureStage() {
+            for (let i = creatureStages.length - 1; i >= 0; i--) {
+                if (level >= creatureStages[i].minLevel) {
+                    return creatureStages[i];
                 }
             }
-            return dinosaurStages[0];
+            return creatureStages[0];
+        }
+
+        function getWeekStart() {
+            const now = new Date();
+            const startOfWeek = new Date(now);
+            startOfWeek.setDate(now.getDate() - now.getDay());
+            startOfWeek.setHours(0, 0, 0, 0);
+            return startOfWeek;
+        }
+
+        function updateWeather() {
+            const thisWeekStart = getWeekStart();
+            const thisWeekTasks = tasks.filter(task => {
+                const taskDate = new Date(task.createdAt);
+                return taskDate >= thisWeekStart;
+            });
+
+            const completedThisWeek = thisWeekTasks.filter(task => task.completed).length;
+            const totalThisWeek = thisWeekTasks.length;
+            
+            let weatherIndex;
+            if (totalThisWeek === 0) {
+                weatherIndex = 1; // Partly cloudy
+            } else {
+                const completionRate = completedThisWeek / totalThisWeek;
+                if (completionRate >= 0.9) weatherIndex = 4; // Rainbow
+                else if (completionRate >= 0.7) weatherIndex = 0; // Sunny
+                else if (completionRate >= 0.4) weatherIndex = 1; // Partly cloudy
+                else if (completionRate >= 0.2) weatherIndex = 2; // Rainy
+                else weatherIndex = 3; // Winter
+            }
+
+            const weather = weatherPatterns[weatherIndex];
+            document.getElementById('weatherEmoji').textContent = weather.emoji;
+            document.getElementById('weatherText').textContent = weather.text;
+        }
+
+        function updateAnimalVisitors() {
+            const thisWeekStart = getWeekStart();
+            const mustDoTasks = tasks.filter(task => {
+                const taskDate = new Date(task.createdAt);
+                return task.priority === 'must-do' && taskDate >= thisWeekStart;
+            });
+            
+            const completedMustDos = mustDoTasks.filter(task => task.completed);
+            const visitorsContainer = document.getElementById('animalVisitors');
+            const visitorHelp = document.getElementById('visitorHelp');
+            
+            if (mustDoTasks.length > 0 && completedMustDos.length === mustDoTasks.length) {
+                // All must-dos completed - show visitors!
+                const numVisitors = Math.min(3, Math.floor(completedMustDos.length / 2) + 1);
+                visitorsContainer.innerHTML = '';
+                
+                for (let i = 0; i < numVisitors; i++) {
+                    const visitor = document.createElement('div');
+                    visitor.className = `animal-visitor visitor-${i + 1}`;
+                    visitor.textContent = animalVisitors[Math.floor(Math.random() * animalVisitors.length)];
+                    visitorsContainer.appendChild(visitor);
+                }
+                
+                visitorHelp.style.display = 'block';
+                visitorHelp.textContent = '🎉 Amazing! You completed all must-do tasks this week!';
+            } else if (mustDoTasks.length > 0) {
+                visitorsContainer.innerHTML = '';
+                visitorHelp.style.display = 'block';
+                visitorHelp.textContent = `🎯 Complete ${mustDoTasks.length - completedMustDos.length} more must-do tasks for forest visitors!`;
+            } else {
+                visitorsContainer.innerHTML = '';
+                visitorHelp.style.display = 'none';
+            }
+        }
+
+        function updateWeeklyProgress() {
+            const weekProgress = document.getElementById('weekProgress');
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const thisWeekStart = getWeekStart();
+            
+            weekProgress.innerHTML = '';
+            
+            for (let i = 0; i < 7; i++) {
+                const dayDate = new Date(thisWeekStart);
+                dayDate.setDate(thisWeekStart.getDate() + i);
+                
+                const dayTasks = tasks.filter(task => {
+                    const taskDate = new Date(task.completedAt || task.createdAt);
+                    return taskDate.toDateString() === dayDate.toDateString() && task.completed;
+                });
+                
+                const dayElement = document.createElement('div');
+                dayElement.className = 'week-day';
+                dayElement.innerHTML = `
+                    <div>${days[i]}</div>
+                    <div class="day-circle ${dayTasks.length >= 3 ? 'active' : dayTasks.length > 0 ? 'partial' : ''}">${dayTasks.length}</div>
+                `;
+                weekProgress.appendChild(dayElement);
+            }
+            
+            // Update must-do progress
+            const thisWeekMustDos = tasks.filter(task => {
+                const taskDate = new Date(task.createdAt);
+                return task.priority === 'must-do' && taskDate >= thisWeekStart;
+            });
+            const completedMustDos = thisWeekMustDos.filter(task => task.completed);
+            
+            document.getElementById('weeklyMustDoComplete').textContent = completedMustDos.length;
+            document.getElementById('weeklyMustDoTotal').textContent = thisWeekMustDos.length;
         }
 
         function updateUI() {
             updateTasksList();
             updateBuddy();
             updateStats();
+            updateWeeklyProgress();
         }
 
         function updateTasksList() {
             const tasksList = document.getElementById('tasksList');
             const emptyState = document.getElementById('emptyState');
-            const projectFilter = document.getElementById('projectFilter').value;
             
-            const filteredTasks = projectFilter ? 
-                tasks.filter(task => task.project === projectFilter) : 
+            const filteredTasks = currentProjectFilter ? 
+                tasks.filter(task => task.project === currentProjectFilter) : 
                 tasks;
 
             if (filteredTasks.length === 0) {
@@ -709,13 +1206,17 @@
             emptyState.style.display = 'none';
             
             tasksList.innerHTML = filteredTasks.map(task => `
-                <div class="task-item ${task.completed ? 'completed' : ''}">
+                <div class="task-item ${task.completed ? 'completed' : ''} ${task.priority}">
                     <div class="task-content">
                         <div class="task-checkbox ${task.completed ? 'checked' : ''}" 
                              onclick="toggleTask(${task.id})"></div>
                         <div class="task-details">
                             <div class="task-text ${task.completed ? 'completed' : ''}">${task.text}</div>
-                            <div class="task-project">${task.project}</div>
+                            <div class="task-meta">
+                                <div class="task-project">${task.project}</div>
+                                <div class="task-priority priority-${task.priority}">${task.priority.replace('-', ' ')}</div>
+                                <div class="task-points">${task.points} pts</div>
+                            </div>
                         </div>
                     </div>
                     <div class="task-actions">
@@ -727,53 +1228,67 @@
         }
 
         function updateBuddy() {
-            const dinosaur = document.getElementById('dinosaur');
-            const dinosaurName = document.getElementById('dinosaurName');
-            const currentStage = getCurrentDinosaurStage();
+            const forestCreature = document.getElementById('forestCreature');
+            const creatureName = document.getElementById('creatureName');
+            const currentStage = getCurrentCreatureStage();
             
-            dinosaur.textContent = currentStage.emoji;
-            dinosaurName.textContent = currentStage.name;
+            forestCreature.textContent = currentStage.emoji;
+            creatureName.textContent = currentStage.name;
         }
 
         function updateStats() {
             document.getElementById('level').textContent = level;
+            document.getElementById('totalPoints').textContent = totalPoints;
             document.getElementById('completedCount').textContent = completedTasksCount;
-            document.getElementById('streak').textContent = currentStreak;
-            document.getElementById('currentXP').textContent = experience;
+            document.getElementById('mustDoStreak').textContent = mustDoStreak;
+            document.getElementById('currentXP').textContent = totalPoints;
             document.getElementById('nextLevelXP').textContent = getXPForLevel(level + 1);
             
-            const progressPercent = (experience / getXPForLevel(level + 1)) * 100;
+            const progressPercent = Math.min(100, (totalPoints / getXPForLevel(level + 1)) * 100);
             document.getElementById('progressFill').style.width = progressPercent + '%';
         }
 
-        function updateProjectFilter() {
-            const projectFilter = document.getElementById('projectFilter');
-            const currentValue = projectFilter.value;
+        function updateProjectTabs() {
+            const projectTabs = document.getElementById('projectTabs');
             const projects = [...new Set(tasks.map(task => task.project))].sort();
             
-            projectFilter.innerHTML = '<option value="">All Projects</option>';
+            // Clear existing tabs except "All Projects"
+            projectTabs.innerHTML = `
+                <div class="project-tab ${currentProjectFilter === '' ? 'active' : ''}" onclick="filterByProject('')">
+                    All Projects
+                    <div class="project-progress" id="allProgress">0</div>
+                </div>
+            `;
+            
             projects.forEach(project => {
-                const option = document.createElement('option');
-                option.value = project;
-                option.textContent = project;
-                projectFilter.appendChild(option);
+                const projectTasks = tasks.filter(task => task.project === project);
+                const completedTasks = projectTasks.filter(task => task.completed);
+                const progressPercent = projectTasks.length > 0 ? Math.round((completedTasks.length / projectTasks.length) * 100) : 0;
+                
+                const tab = document.createElement('div');
+                tab.className = `project-tab ${currentProjectFilter === project ? 'active' : ''}`;
+                tab.onclick = () => filterByProject(project);
+                tab.innerHTML = `
+                    ${project}
+                    <div class="project-progress">${progressPercent}%</div>
+                `;
+                projectTabs.appendChild(tab);
             });
             
-            projectFilter.value = currentValue;
+            // Update all projects progress
+            const allCompleted = tasks.filter(task => task.completed).length;
+            const allProgress = tasks.length > 0 ? Math.round((allCompleted / tasks.length) * 100) : 0;
+            document.getElementById('allProgress').textContent = allProgress + '%';
         }
 
-        function filterTasks() {
-            updateTasksList();
+        function animateCreature() {
+            const creature = document.getElementById('forestCreature');
+            creature.classList.add('happy');
+            setTimeout(() => creature.classList.remove('happy'), 600);
         }
 
-        function animateDinosaur() {
-            const dinosaur = document.getElementById('dinosaur');
-            dinosaur.classList.add('happy');
-            setTimeout(() => dinosaur.classList.remove('happy'), 600);
-        }
-
-        function petDinosaur() {
-            animateDinosaur();
+        function petCreature() {
+            animateCreature();
             showMotivationalMessage();
         }
 
@@ -791,16 +1306,19 @@
         // Export functions
         function exportToCSV() {
             const csvContent = [
-                ['Task', 'Project', 'Status', 'Created Date'],
+                ['Task', 'Project', 'Priority', 'Points', 'Status', 'Created Date', 'Completed Date'],
                 ...tasks.map(task => [
                     task.text,
                     task.project,
+                    task.priority,
+                    task.points,
                     task.completed ? 'Completed' : 'Pending',
-                    new Date(task.createdAt).toLocaleDateString()
+                    new Date(task.createdAt).toLocaleDateString(),
+                    task.completedAt ? new Date(task.completedAt).toLocaleDateString() : ''
                 ])
             ].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
 
-            downloadFile(csvContent, 'my-tasks.csv', 'text/csv');
+            downloadFile(csvContent, 'forest-companion-tasks.csv', 'text/csv');
         }
 
         function exportToJSON() {
@@ -808,34 +1326,40 @@
                 tasks: tasks,
                 stats: {
                     level: level,
-                    experience: experience,
+                    totalPoints: totalPoints,
                     completedTasksCount: completedTasksCount,
-                    currentStreak: currentStreak
+                    mustDoStreak: mustDoStreak
                 },
                 exportedAt: new Date().toISOString()
             };
 
-            downloadFile(JSON.stringify(exportData, null, 2), 'my-tasks.json', 'application/json');
+            downloadFile(JSON.stringify(exportData, null, 2), 'forest-companion-tasks.json', 'application/json');
         }
 
         function exportToMarkdown() {
             const projects = [...new Set(tasks.map(task => task.project))].sort();
-            let markdown = `# My Tasks\n\nExported on ${new Date().toLocaleDateString()}\n\n`;
+            let markdown = `# Forest Companion Tasks\n\nExported on ${new Date().toLocaleDateString()}\n\n`;
             
-            markdown += `## Statistics\n- Level: ${level}\n- Tasks Completed: ${completedTasksCount}\n- Current Streak: ${currentStreak}\n- Experience: ${experience}\n\n`;
+            markdown += `## Statistics\n- Level: ${level}\n- Total Points: ${totalPoints}\n- Tasks Completed: ${completedTasksCount}\n- Must-Do Streak: ${mustDoStreak}\n\n`;
 
             projects.forEach(project => {
                 const projectTasks = tasks.filter(task => task.project === project);
                 markdown += `## ${project}\n\n`;
                 
-                projectTasks.forEach(task => {
-                    const status = task.completed ? '✅' : '⭐';
-                    markdown += `${status} ${task.text}\n`;
+                ['must-do', 'nice-to-do', 'stretch-goal'].forEach(priority => {
+                    const priorityTasks = projectTasks.filter(task => task.priority === priority);
+                    if (priorityTasks.length > 0) {
+                        markdown += `### ${priority.replace('-', ' ').toUpperCase()}\n\n`;
+                        priorityTasks.forEach(task => {
+                            const status = task.completed ? '✅' : '⭐';
+                            markdown += `${status} ${task.text} (${task.points} pts)\n`;
+                        });
+                        markdown += '\n';
+                    }
                 });
-                markdown += '\n';
             });
 
-            downloadFile(markdown, 'my-tasks.md', 'text/markdown');
+            downloadFile(markdown, 'forest-companion-tasks.md', 'text/markdown');
         }
 
         function downloadFile(content, filename, mimeType) {
