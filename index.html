@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Woodland Work Finch for Lele+Flora</title>
+    <title>Forest Companion To-Do List</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -120,10 +120,17 @@
             display: flex;
             gap: 10px;
             margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .project-input-container {
+            position: relative;
+            flex: 1;
+            min-width: 140px;
         }
 
         .project-input {
-            width: 140px;
+            width: 100%;
             padding: 12px;
             border: 2px solid #d4b5a0;
             border-radius: 12px;
@@ -132,49 +139,115 @@
             background: white;
         }
 
-        .priority-select, .points-input {
-            width: 110px;
-            padding: 12px;
-            border: 2px solid #d4b5a0;
-            border-radius: 12px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 14px;
-            background: white;
-        }
-
-        .points-container {
-            position: relative;
-        }
-
-        .points-tooltip {
+        .input-help {
             position: absolute;
-            top: -120px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 12px;
-            border-radius: 8px;
+            top: -18px;
+            left: 12px;
+            font-size: 10px;
+            color: #999;
+            font-style: italic;
+        }
+
+        .priority-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .priority-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 12px;
+            border: 2px solid #d4b5a0;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+            min-width: 80px;
+        }
+
+        .priority-btn:hover {
+            background: rgba(212, 181, 160, 0.3);
+        }
+
+        .priority-btn.active {
+            background: #d4b5a0;
+            border-color: #8b4513;
+            color: #5a5a5a;
+        }
+
+        .priority-emoji {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .priority-label {
+            font-size: 10px;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        .points-slider-container {
+            min-width: 120px;
+            flex: 1;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: #8b4513;
+            font-weight: 500;
+        }
+
+        .effort-display {
             font-size: 11px;
-            white-space: nowrap;
-            z-index: 100;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
+            color: #999;
+            font-weight: normal;
         }
 
-        .points-tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 5px solid transparent;
-            border-top-color: rgba(0, 0, 0, 0.9);
+        .points-slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(to right, #e8f5e8, #fff3e0, #ffebee);
+            outline: none;
+            appearance: none;
+            cursor: pointer;
         }
 
-        .points-container:hover .points-tooltip {
-            opacity: 1;
+        .points-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #8b4513;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .points-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #8b4513;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .slider-markers {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4px;
+            font-size: 9px;
+            color: #999;
         }
 
         .add-btn {
@@ -593,10 +666,17 @@
         .edit-modal-row {
             display: flex;
             gap: 10px;
+            flex-direction: column;
         }
 
-        .edit-modal-row select, .edit-modal-row input {
-            flex: 1;
+        .edit-priority-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .edit-points-container {
+            min-width: 150px;
         }
 
         .edit-modal-actions {
@@ -668,8 +748,12 @@
                 flex-direction: column;
             }
             
-            .project-input, .priority-select, .points-input {
+            .project-input-container, .priority-buttons, .points-slider-container {
                 width: 100%;
+            }
+
+            .priority-buttons {
+                justify-content: center;
             }
         }
     </style>
@@ -682,36 +766,46 @@
             
             <div class="project-tabs" id="projectTabs">
                 <div class="project-tab active" onclick="filterByProject('')">
-                    All Projects
+                    🌍 All Categories
                     <div class="project-progress" id="allProgress">0</div>
                 </div>
             </div>
 
             <div class="task-input-section">
                 <div class="task-input-row">
-                    <input type="text" id="taskInput" class="task-input" placeholder="What needs to be done?" maxlength="100">
+                    <input type="text" id="taskInput" class="task-input" placeholder="✨ What adventure shall we tackle today?" maxlength="100">
                 </div>
                 <div class="task-input-row-2">
-                    <input type="text" id="projectInput" class="project-input" placeholder="Project" maxlength="20">
-                    <select id="prioritySelect" class="priority-select">
-                        <option value="must-do">Must-Do</option>
-                        <option value="nice-to-do">Nice-to-Do</option>
-                        <option value="stretch-goal">Stretch Goal</option>
-                    </select>
-                    <div class="points-container">
-                        <input type="number" id="pointsInput" class="points-input" placeholder="Points" min="1" max="10" value="1">
-                        <div class="points-tooltip" id="pointsTooltip">
-                            <div class="tooltip-content">
-                                <strong>Task Difficulty Guide:</strong><br>
-                                1-2 pts: Quick tasks (5-15 min)<br>
-                                3-4 pts: Medium tasks (30-60 min)<br>
-                                5-7 pts: Big tasks (2-4 hours)<br>
-                                8-10 pts: Major projects (full day+)
-                            </div>
+                    <div class="project-input-container">
+                        <input type="text" id="projectInput" class="project-input" placeholder="🗂️ Category" maxlength="20">
+                        <div class="input-help">Group similar tasks!</div>
+                    </div>
+                    <div class="priority-buttons" id="priorityButtons">
+                        <button type="button" class="priority-btn active" data-priority="must-do">
+                            <span class="priority-emoji">🔥</span>
+                            <span class="priority-label">Must-Do</span>
+                        </button>
+                        <button type="button" class="priority-btn" data-priority="nice-to-do">
+                            <span class="priority-emoji">⭐</span>
+                            <span class="priority-label">Nice-to-Do</span>
+                        </button>
+                        <button type="button" class="priority-btn" data-priority="stretch-goal">
+                            <span class="priority-emoji">🚀</span>
+                            <span class="priority-label">Stretch Goal</span>
+                        </button>
+                    </div>
+                    <div class="points-slider-container">
+                        <div class="slider-label">
+                            <span>⚡ Effort Level</span>
+                            <span class="effort-display" id="effortDisplay">Quick Task</span>
+                        </div>
+                        <input type="range" id="pointsSlider" class="points-slider" min="1" max="10" value="1">
+                        <div class="slider-markers">
+                            <span>1</span><span>5</span><span>10</span>
                         </div>
                     </div>
                 </div>
-                <button id="addTaskBtn" class="add-btn">+ Add Task</button>
+                <button id="addTaskBtn" class="add-btn">🌱 Plant Your Task</button>
             </div>
 
             <div class="tasks-container">
@@ -785,12 +879,14 @@
             </div>
 
             <div class="export-section">
-                <h3 style="color: #8b4513; margin-bottom: 15px; font-size: 1.2em;">Export Options</h3>
+                <h3 style="color: #8b4513; margin-bottom: 15px; font-size: 1.2em;">Sync Your Tasks</h3>
+                <button class="export-btn" onclick="exportToJSON()">💾 Export Tasks</button>
+                <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importFromJSON()">
+                <button class="export-btn" onclick="document.getElementById('importFile').click()">📥 Import Tasks</button>
                 <button class="export-btn" onclick="exportToCSV()">📊 Export to CSV</button>
-                <button class="export-btn" onclick="exportToJSON()">💾 Export to JSON</button>
                 <button class="export-btn" onclick="exportToMarkdown()">📝 Export to Markdown</button>
                 <p style="font-size: 12px; color: #999; margin-top: 10px;">
-                    Export your tasks to import into Google Sheets, Notion, Coda, or other productivity tools!
+                    Export/Import JSON to sync between devices. CSV/Markdown for other tools.
                 </p>
             </div>
         </div>
@@ -868,13 +964,59 @@
             updateProjectTabs();
             updateWeather();
             updateAnimalVisitors();
-            
-            // Event listeners
+            setupEventListeners();
+        }
+
+        function setupEventListeners() {
+            // Task input
             document.getElementById('addTaskBtn').addEventListener('click', addTask);
             document.getElementById('taskInput').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') addTask();
             });
             document.getElementById('forestCreature').addEventListener('click', petCreature);
+
+            // Priority buttons
+            document.querySelectorAll('.priority-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons in this group
+                    const container = this.closest('.priority-buttons') || this.closest('.edit-priority-buttons');
+                    container.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                });
+            });
+
+            // Points slider
+            const pointsSlider = document.getElementById('pointsSlider');
+            const effortDisplay = document.getElementById('effortDisplay');
+            
+            pointsSlider.addEventListener('input', function() {
+                updateEffortDisplay(this.value, effortDisplay);
+            });
+
+            // Edit modal points slider
+            const editPointsSlider = document.getElementById('editPointsSlider');
+            const editEffortDisplay = document.getElementById('editEffortDisplay');
+            
+            editPointsSlider.addEventListener('input', function() {
+                updateEffortDisplay(this.value, editEffortDisplay);
+            });
+        }
+
+        function updateEffortDisplay(value, displayElement) {
+            const effortLevels = {
+                1: 'Quick Task',
+                2: 'Quick Task',
+                3: 'Medium Task', 
+                4: 'Medium Task',
+                5: 'Big Task',
+                6: 'Big Task',
+                7: 'Big Task',
+                8: 'Major Project',
+                9: 'Major Project',
+                10: 'Epic Quest'
+            };
+            displayElement.textContent = effortLevels[value] || 'Quick Task';
         }
 
         function saveToStorage() {
@@ -889,8 +1031,12 @@
         function addTask() {
             const taskText = document.getElementById('taskInput').value.trim();
             const project = document.getElementById('projectInput').value.trim() || 'General';
-            const priority = document.getElementById('prioritySelect').value;
-            const points = parseInt(document.getElementById('pointsInput').value) || 1;
+            
+            // Get selected priority from active button
+            const activePriorityBtn = document.querySelector('.priority-buttons .priority-btn.active');
+            const priority = activePriorityBtn ? activePriorityBtn.dataset.priority : 'must-do';
+            
+            const points = parseInt(document.getElementById('pointsSlider').value) || 1;
             
             if (!taskText) return;
 
@@ -907,11 +1053,19 @@
 
             tasks.push(task);
             
-            // Clear inputs
+            // Clear inputs and reset to defaults
             document.getElementById('taskInput').value = '';
             document.getElementById('projectInput').value = '';
-            document.getElementById('prioritySelect').value = 'must-do';
-            document.getElementById('pointsInput').value = '1';
+            document.getElementById('pointsSlider').value = 1;
+            updateEffortDisplay(1, document.getElementById('effortDisplay'));
+            
+            // Reset priority buttons to must-do
+            document.querySelectorAll('.priority-buttons .priority-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.priority === 'must-do') {
+                    btn.classList.add('active');
+                }
+            });
             
             saveToStorage();
             updateUI();
@@ -1015,8 +1169,19 @@
             editingTaskId = taskId;
             document.getElementById('editTaskText').value = task.text;
             document.getElementById('editTaskProject').value = task.project;
-            document.getElementById('editTaskPriority').value = task.priority;
-            document.getElementById('editTaskPoints').value = task.points;
+            
+            // Set priority buttons
+            document.querySelectorAll('.edit-priority-buttons .priority-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.priority === task.priority) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Set points slider
+            document.getElementById('editPointsSlider').value = task.points;
+            updateEffortDisplay(task.points, document.getElementById('editEffortDisplay'));
+            
             document.getElementById('editModal').style.display = 'flex';
         }
 
@@ -1026,8 +1191,12 @@
 
             const newText = document.getElementById('editTaskText').value.trim();
             const newProject = document.getElementById('editTaskProject').value.trim() || 'General';
-            const newPriority = document.getElementById('editTaskPriority').value;
-            const newPoints = parseInt(document.getElementById('editTaskPoints').value) || 1;
+            
+            // Get selected priority from active button
+            const activeEditBtn = document.querySelector('.edit-priority-buttons .priority-btn.active');
+            const newPriority = activeEditBtn ? activeEditBtn.dataset.priority : 'must-do';
+            
+            const newPoints = parseInt(document.getElementById('editPointsSlider').value) || 1;
 
             if (!newText) return;
 
@@ -1252,10 +1421,10 @@
             const projectTabs = document.getElementById('projectTabs');
             const projects = [...new Set(tasks.map(task => task.project))].sort();
             
-            // Clear existing tabs except "All Projects"
+            // Clear existing tabs except "All Categories"
             projectTabs.innerHTML = `
                 <div class="project-tab ${currentProjectFilter === '' ? 'active' : ''}" onclick="filterByProject('')">
-                    All Projects
+                    🌍 All Categories
                     <div class="project-progress" id="allProgress">0</div>
                 </div>
             `;
@@ -1304,6 +1473,78 @@
         }
 
         // Export functions
+        function importFromJSON() {
+            const fileInput = document.getElementById('importFile');
+            const file = fileInput.files[0];
+            
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importData = JSON.parse(e.target.result);
+                    
+                    if (importData.tasks && Array.isArray(importData.tasks)) {
+                        // Show confirmation dialog
+                        const confirmMessage = `Import ${importData.tasks.length} tasks?\n\nThis will:\n• Add imported tasks to your current tasks\n• Keep your existing tasks\n• Merge the data together\n\nContinue?`;
+                        
+                        if (confirm(confirmMessage)) {
+                            // Find the highest current task ID to avoid conflicts
+                            const maxCurrentId = tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) : 0;
+                            
+                            // Add imported tasks with new IDs
+                            importData.tasks.forEach((importedTask, index) => {
+                                const newTask = {
+                                    ...importedTask,
+                                    id: maxCurrentId + index + 1
+                                };
+                                tasks.push(newTask);
+                            });
+                            
+                            // Update counters
+                            currentTaskId = Math.max(currentTaskId, maxCurrentId + importData.tasks.length + 1);
+                            
+                            // Recalculate stats from scratch
+                            recalculateStats();
+                            
+                            saveToStorage();
+                            updateUI();
+                            updateProjectTabs();
+                            updateWeather();
+                            updateAnimalVisitors();
+                            
+                            alert(`Successfully imported ${importData.tasks.length} tasks! 🎉`);
+                        }
+                    } else {
+                        alert('Invalid file format. Please select a JSON file exported from Forest Companion.');
+                    }
+                } catch (error) {
+                    alert('Error reading file. Please make sure it\'s a valid JSON file exported from Forest Companion.');
+                }
+                
+                // Clear the file input
+                fileInput.value = '';
+            };
+            
+            reader.readAsText(file);
+        }
+
+        function recalculateStats() {
+            // Recalculate all stats from current tasks
+            const completedTasks = tasks.filter(task => task.completed);
+            completedTasksCount = completedTasks.length;
+            totalPoints = completedTasks.reduce((sum, task) => sum + (task.points || 1), 0);
+            
+            // Recalculate level based on total points
+            level = 1;
+            while (totalPoints >= getXPForLevel(level + 1)) {
+                level++;
+            }
+            
+            // Recalculate must-do streak
+            updateMustDoStreak();
+        }
+
         function exportToCSV() {
             const csvContent = [
                 ['Task', 'Project', 'Priority', 'Points', 'Status', 'Created Date', 'Completed Date'],
