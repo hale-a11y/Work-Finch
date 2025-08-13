@@ -560,6 +560,109 @@
             font-style: italic;
         }
 
+        .export-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            width: 100%;
+        }
+
+        .export-btn {
+            width: 100%;
+            padding: 12px;
+            background: #8b4513;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .export-btn:hover {
+            background: #a0522d;
+            transform: translateY(-2px);
+        }
+
+        .edit-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .edit-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .edit-modal h3 {
+            color: #8b4513;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .edit-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #d4b5a0;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            background: white;
+        }
+
+        .edit-priority-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .edit-effort-section {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .edit-modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .save-btn, .cancel-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+        }
+
+        .save-btn {
+            background: #8b4513;
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #e8e8e8;
+            color: #5a5a5a;
+        }
+
         .empty-state {
             text-align: center;
             padding: 40px 20px;
@@ -758,15 +861,213 @@
     </div>
 
     <script>
-        // Basic state
-        let tasks = [];
-        let currentTaskId = 1;
+        // Basic state with localStorage persistence
+        let tasks = JSON.parse(localStorage.getItem('forestTasks')) || [];
+        let currentTaskId = parseInt(localStorage.getItem('currentTaskId')) || 1;
         let completedTasksCount = 0;
-        let categorySubcategories = {};
+        let categorySubcategories = JSON.parse(localStorage.getItem('categorySubcategories')) || {};
         let currentProjectFilter = '';
-        let totalPoints = 0;
-        let mustDoStreak = 0;
-        let level = 1;
+        let totalPoints = parseInt(localStorage.getItem('totalPoints')) || 0;
+        let mustDoStreak = parseInt(localStorage.getItem('mustDoStreak')) || 0;
+        let level = parseInt(localStorage.getItem('level')) || 1;
+        let editingTaskId = null;
+
+        function saveToStorage() {
+            localStorage.setItem('forestTasks', JSON.stringify(tasks));
+            localStorage.setItem('currentTaskId', currentTaskId.toString());
+            localStorage.setItem('categorySubcategories', JSON.stringify(categorySubcategories));
+            localStorage.setItem('totalPoints', totalPoints.toString());
+            localStorage.setItem('mustDoStreak', mustDoStreak.toString());
+            localStorage.setItem('level', level.toString());
+        }
+
+        function editTask(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (!task) return;
+
+            editingTaskId = taskId;
+            document.getElementById('editModal').style.display = 'flex';
+            
+            // Populate fields
+            document.getElementById('editTaskText').value = task.text;
+            
+            const projectParts = task.project.split(' > ');
+            document.getElementById('editTaskProject').value = projectParts[0] || '';
+            document.getElementById('editTaskSubcategory').value = projectParts[1] || '';
+            
+            // Set priority buttons
+            document.querySelectorAll('#editPriorityButtons .priority-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.priority === task.priority) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Set points slider
+            document.getElementById('editPointsSlider').value = task.points;
+            updateEditEffortDisplay(task.points);
+        }
+
+        function saveEdit() {
+            const task = tasks.find(t => t.id === editingTaskId);
+            if (!task) return;
+
+            const newText = document.getElementById('editTaskText').value.trim();
+            let newProject = document.getElementById('editTaskProject').value.trim() || 'General';
+            const newSubcategory = document.getElementById('editTaskSubcategory').value.trim();
+            
+            if (newSubcategory) {
+                learnCategorySubcategory(newProject, newSubcategory);
+                newProject = `${newProject} > ${newSubcategory}`;
+            }
+            
+            const activeEditBtn = document.querySelector('#editPriorityButtons .priority-btn.active');
+            const newPriority = activeEditBtn ? activeEditBtn.dataset.priority : 'must-do';
+            const newPoints = parseInt(document.getElementById('editPointsSlider').value) || 1;
+
+            if (!newText) return;
+
+            // Update points if task is completed
+            if (task.completed) {
+                totalPoints = totalPoints - task.points + newPoints;
+            }
+
+            task.text = newText;
+            task.project = newProject;
+            task.priority = newPriority;
+            task.points = newPoints;
+
+            cancelEdit();
+            saveToStorage();
+            updateTasksList();
+            updateStats();
+            updateProjectTabs();
+        }
+
+        function cancelEdit() {
+            document.getElementById('editModal').style.display = 'none';
+            editingTaskId = null;
+        }
+
+        function deleteTask(taskId) {
+            if (!confirm('Delete this task?')) return;
+            
+            const taskIndex = tasks.findIndex(t => t.id === taskId);
+            if (taskIndex === -1) return;
+
+            const task = tasks[taskIndex];
+            if (task.completed) {
+                totalPoints = Math.max(0, totalPoints - task.points);
+                level = Math.max(1, Math.floor(totalPoints / 25) + 1);
+                updateMustDoStreak();
+            }
+
+            tasks.splice(taskIndex, 1);
+            saveToStorage();
+            saveToStorage();
+            saveToStorage();
+            updateTasksList();
+            updateStats();
+            updateProjectTabs();
+            updateWeather();
+            updateAnimalVisitors();
+            updateWeeklyProgress();
+            updateBuddy();
+        }
+
+        function updateEditEffortDisplay(value) {
+            const effortLevels = {
+                1: 'Quick Task', 2: 'Quick Task', 3: 'Medium Task', 4: 'Medium Task',
+                5: 'Big Task', 6: 'Big Task', 7: 'Big Task', 8: 'Major Project',
+                9: 'Major Project', 10: 'Epic Quest'
+            };
+            document.getElementById('editEffortDisplay').textContent = effortLevels[value] || 'Quick Task';
+        }
+
+        function exportToJSON() {
+            const exportData = {
+                tasks: tasks,
+                categorySubcategories: categorySubcategories,
+                stats: {
+                    level: level,
+                    totalPoints: totalPoints,
+                    mustDoStreak: mustDoStreak,
+                    currentTaskId: currentTaskId
+                },
+                exportedAt: new Date().toISOString()
+            };
+
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'woodland-finch-tasks.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function importFromJSON() {
+            const fileInput = document.getElementById('importFile');
+            const file = fileInput.files[0];
+            
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importData = JSON.parse(e.target.result);
+                    
+                    if (importData.tasks && Array.isArray(importData.tasks)) {
+                        const confirmMessage = `Import ${importData.tasks.length} tasks? This will add them to your current tasks.`;
+                        
+                        if (confirm(confirmMessage)) {
+                            const maxCurrentId = tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) : 0;
+                            
+                            importData.tasks.forEach((importedTask, index) => {
+                                const newTask = {
+                                    ...importedTask,
+                                    id: maxCurrentId + index + 1
+                                };
+                                tasks.push(newTask);
+                            });
+                            
+                            currentTaskId = Math.max(currentTaskId, maxCurrentId + importData.tasks.length + 1);
+                            
+                            if (importData.categorySubcategories) {
+                                Object.assign(categorySubcategories, importData.categorySubcategories);
+                            }
+                            
+                            // Recalculate stats
+                            const completedTasks = tasks.filter(task => task.completed);
+                            totalPoints = completedTasks.reduce((sum, task) => sum + (task.points || 1), 0);
+                            level = Math.max(1, Math.floor(totalPoints / 25) + 1);
+                            updateMustDoStreak();
+                            
+                            saveToStorage();
+                            updateTasksList();
+                            updateStats();
+                            updateProjectTabs();
+                            updateWeather();
+                            updateAnimalVisitors();
+                            updateWeeklyProgress();
+                            updateBuddy();
+                            
+                            alert(`Successfully imported ${importData.tasks.length} tasks! 🎉`);
+                        }
+                    } else {
+                        alert('Invalid file format. Please select a JSON file exported from Woodland Work Finch.');
+                    }
+                } catch (error) {
+                    alert('Error reading file. Please make sure it\'s a valid JSON file.');
+                }
+                
+                fileInput.value = '';
+            };
+            
+            reader.readAsText(file);
+        }
 
         // Forest creature evolution stages
         const creatureStages = [
@@ -1184,6 +1485,31 @@
             updateEffortDisplay(parseInt(this.value));
         });
 
+        // Edit modal priority button handlers
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('#editPriorityButtons .priority-btn')) {
+                const btn = e.target.closest('.priority-btn');
+                document.querySelectorAll('#editPriorityButtons .priority-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+        });
+
+        // Edit modal points slider handler
+        document.addEventListener('input', function(e) {
+            if (e.target.id === 'editPointsSlider') {
+                updateEditEffortDisplay(parseInt(e.target.value));
+            }
+        });
+
+        // Click outside modal to close
+        document.getElementById('editModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cancelEdit();
+            }
+        });
+
+        // Initial load
+        saveToStorage();
         updateTasksList();
         updateProjectTabs();
         updateWeather();
