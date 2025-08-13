@@ -100,21 +100,6 @@
             margin-bottom: 25px;
         }
 
-        .section-divider {
-            display: flex;
-            justify-content: center;
-            margin: 15px 0 10px 0;
-        }
-
-        .section-help {
-            font-size: 12px;
-            color: #8b4513;
-            font-style: italic;
-            background: rgba(212, 181, 160, 0.3);
-            padding: 6px 12px;
-            border-radius: 12px;
-        }
-
         .task-input-row {
             display: flex;
             gap: 10px;
@@ -129,6 +114,21 @@
             font-family: 'DM Sans', sans-serif;
             font-size: 14px;
             background: white;
+        }
+
+        .section-divider {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0 10px 0;
+        }
+
+        .section-help {
+            font-size: 12px;
+            color: #8b4513;
+            font-style: italic;
+            background: rgba(212, 181, 160, 0.3);
+            padding: 6px 12px;
+            border-radius: 12px;
         }
 
         .task-input-row-2 {
@@ -696,6 +696,33 @@
             width: 100%;
         }
 
+        .export-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            width: 100%;
+        }
+
+        .export-btn {
+            width: 100%;
+            padding: 12px;
+            background: #8b4513;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .export-btn:hover {
+            background: #a0522d;
+            transform: translateY(-2px);
+        }
+
         .edit-modal {
             position: fixed;
             top: 0;
@@ -713,7 +740,7 @@
             background: white;
             border-radius: 20px;
             padding: 30px;
-            max-width: 500px;
+            max-width: 600px;
             width: 90%;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
@@ -724,7 +751,7 @@
             font-size: 1.5em;
         }
 
-        .edit-modal input, .edit-modal select {
+        .edit-modal input {
             width: 100%;
             padding: 12px;
             border: 2px solid #d4b5a0;
@@ -732,55 +759,14 @@
             margin-bottom: 15px;
             font-family: 'DM Sans', sans-serif;
             font-size: 14px;
-        }
-
-        .edit-project-container input:last-child {
-            margin-top: 8px;
-        }
-
-        .edit-project-container {
-            margin-bottom: 15px;
-        }
-
-        .edit-modal-row {
-            display: flex;
-            gap: 15px;
-            flex-direction: column;
-        }
-
-        .edit-row-priority {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .edit-row-effort {
-            display: flex;
-            gap: 10px;
-            align-items: end;
-        }
-
-        .edit-priority-buttons {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .edit-points-container {
-            min-width: 200px;
-            flex: 1;
-            position: relative;
-        }
-
-        .edit-points-container:hover .effort-tooltip {
-            opacity: 1;
+            background: white;
         }
 
         .edit-modal-actions {
             display: flex;
             gap: 10px;
             justify-content: flex-end;
+            margin-top: 20px;
         }
 
         .save-btn, .cancel-btn {
@@ -807,33 +793,6 @@
             padding: 40px 20px;
             color: #999;
             font-style: italic;
-        }
-
-        .export-section {
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 15px;
-            width: 100%;
-        }
-
-        .export-btn {
-            width: 100%;
-            padding: 12px;
-            background: #8b4513;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            font-weight: 500;
-            margin-bottom: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .export-btn:hover {
-            background: #a0522d;
-            transform: translateY(-2px);
         }
 
         @media (max-width: 768px) {
@@ -881,51 +840,55 @@
                     <span class="section-help">🗂️ Group similar tasks together!</span>
                 </div>
                 <div class="task-input-row-2">
-                    <div class="project-input-container">
-                        <input type="text" id="projectInput" class="project-input" placeholder="🗂️ Category (or type your own!)" maxlength="20" list="categoryDatalist">
-                        <datalist id="categoryDatalist">
-                            <option value="Admin">
-                            <option value="Communication">
-                            <option value="Development">
-                            <option value="Meeting Prep">
-                            <option value="Personal">
-                            <option value="Projects">
-                        </datalist>
+                    <div class="input-row-top">
+                        <div class="project-input-container">
+                            <input type="text" id="projectInput" class="project-input" placeholder="🗂️ Category (or type your own!)" maxlength="20" list="categoryDatalist">
+                            <datalist id="categoryDatalist">
+                                <option value="Admin">
+                                <option value="Communication">
+                                <option value="Development">
+                                <option value="Meeting Prep">
+                                <option value="Personal">
+                                <option value="Projects">
+                            </datalist>
+                        </div>
                         <div class="subcategory-container">
                             <input type="text" id="subcategoryInput" class="subcategory-input" placeholder="📂 Sub-category (optional)" maxlength="20" list="subcategoryDatalist">
                             <datalist id="subcategoryDatalist"></datalist>
                         </div>
                     </div>
-                    <div class="priority-buttons" id="priorityButtons">
-                        <button type="button" class="priority-btn active" data-priority="must-do">
-                            <span class="priority-emoji">🔥</span>
-                            <span class="priority-label">Must-Do</span>
-                        </button>
-                        <button type="button" class="priority-btn" data-priority="nice-to-do">
-                            <span class="priority-emoji">⭐</span>
-                            <span class="priority-label">Nice-to-Do</span>
-                        </button>
-                        <button type="button" class="priority-btn" data-priority="stretch-goal">
-                            <span class="priority-emoji">🚀</span>
-                            <span class="priority-label">Stretch Goal</span>
-                        </button>
-                    </div>
-                    <div class="points-slider-container">
-                        <div class="slider-label">
-                            <span>⚡ Effort Level</span>
-                            <span class="effort-display" id="effortDisplay">Quick Task</span>
+                    <div class="input-row-bottom">
+                        <div class="priority-buttons" id="priorityButtons">
+                            <button type="button" class="priority-btn active" data-priority="must-do">
+                                <span class="priority-emoji">🔥</span>
+                                <span class="priority-label">Must-Do</span>
+                            </button>
+                            <button type="button" class="priority-btn" data-priority="nice-to-do">
+                                <span class="priority-emoji">⭐</span>
+                                <span class="priority-label">Nice-to-Do</span>
+                            </button>
+                            <button type="button" class="priority-btn" data-priority="stretch-goal">
+                                <span class="priority-emoji">🚀</span>
+                                <span class="priority-label">Stretch Goal</span>
+                            </button>
                         </div>
-                        <input type="range" id="pointsSlider" class="points-slider" min="1" max="10" value="1">
-                        <div class="slider-markers">
-                            <span>1</span><span>5</span><span>10</span>
-                        </div>
-                        <div class="effort-tooltip" id="effortTooltip">
-                            <div class="tooltip-content">
-                                <strong>Time Guide:</strong><br>
-                                1-2 pts: Quick (5-15 min)<br>
-                                3-4 pts: Medium (30-60 min)<br>
-                                5-7 pts: Big (2-4 hours)<br>
-                                8-10 pts: Epic (full day+)
+                        <div class="points-slider-container">
+                            <div class="slider-label">
+                                <span>⚡ Effort Level</span>
+                                <span class="effort-display" id="effortDisplay">Quick Task</span>
+                            </div>
+                            <input type="range" id="pointsSlider" class="points-slider" min="1" max="10" value="1">
+                            <div class="slider-markers">
+                                <span>1</span><span>5</span><span>10</span>
+                            </div>
+                            <div class="effort-tooltip" id="effortTooltip">
+                                <div class="tooltip-content">
+                                    <strong>Time Guide:</strong><br>
+                                    1-2 pts: Quick (5-15 min)<br>
+                                    3-4 pts: Medium (30-60 min)<br>
+                                    5-7 pts: Big (2-4 hours)<br>
+                                    8-10 pts: Epic (full day+)
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1021,16 +984,66 @@
     <div id="editModal" class="edit-modal" style="display: none;">
         <div class="edit-modal-content">
             <h3>Edit Task</h3>
-            <input type="text" id="editTaskText" placeholder="Task description">
-            <input type="text" id="editTaskProject" placeholder="Project">
-            <div class="edit-modal-row">
-                <select id="editTaskPriority">
-                    <option value="must-do">Must-Do</option>
-                    <option value="nice-to-do">Nice-to-Do</option>
-                    <option value="stretch-goal">Stretch Goal</option>
-                </select>
-                <input type="number" id="editTaskPoints" placeholder="Points" min="1" max="10">
+            <input type="text" id="editTaskText" placeholder="✨ Update your adventure">
+            
+            <div class="section-divider">
+                <span class="section-help">🗂️ Update task categories!</span>
             </div>
+            
+            <div class="task-input-row-2">
+                <div class="input-row-top">
+                    <div class="project-input-container">
+                        <input type="text" id="editTaskProject" class="project-input" placeholder="🗂️ Category (or type your own!)" list="editCategoryDatalist">
+                        <datalist id="editCategoryDatalist">
+                            <option value="Admin">
+                            <option value="Communication">
+                            <option value="Development">
+                            <option value="Meeting Prep">
+                            <option value="Personal">
+                            <option value="Projects">
+                        </datalist>
+                    </div>
+                    <div class="subcategory-container">
+                        <input type="text" id="editTaskSubcategory" class="subcategory-input" placeholder="📂 Sub-category (optional)">
+                    </div>
+                </div>
+                <div class="input-row-bottom">
+                    <div class="priority-buttons" id="editPriorityButtons">
+                        <button type="button" class="priority-btn" data-priority="must-do">
+                            <span class="priority-emoji">🔥</span>
+                            <span class="priority-label">Must-Do</span>
+                        </button>
+                        <button type="button" class="priority-btn" data-priority="nice-to-do">
+                            <span class="priority-emoji">⭐</span>
+                            <span class="priority-label">Nice-to-Do</span>
+                        </button>
+                        <button type="button" class="priority-btn" data-priority="stretch-goal">
+                            <span class="priority-emoji">🚀</span>
+                            <span class="priority-label">Stretch Goal</span>
+                        </button>
+                    </div>
+                    <div class="points-slider-container">
+                        <div class="slider-label">
+                            <span>⚡ Effort Level</span>
+                            <span class="effort-display" id="editEffortDisplay">Quick Task</span>
+                        </div>
+                        <input type="range" id="editPointsSlider" class="points-slider" min="1" max="10" value="1">
+                        <div class="slider-markers">
+                            <span>1</span><span>5</span><span>10</span>
+                        </div>
+                        <div class="effort-tooltip">
+                            <div class="tooltip-content">
+                                <strong>Time Guide:</strong><br>
+                                1-2 pts: Quick (5-15 min)<br>
+                                3-4 pts: Medium (30-60 min)<br>
+                                5-7 pts: Big (2-4 hours)<br>
+                                8-10 pts: Epic (full day+)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="edit-modal-actions">
                 <button class="cancel-btn" onclick="cancelEdit()">Cancel</button>
                 <button class="save-btn" onclick="saveEdit()">Save</button>
@@ -1095,31 +1108,45 @@
 
         function setupEventListeners() {
             // Task input
-            document.getElementById('addTaskBtn').addEventListener('click', addTask);
-            document.getElementById('taskInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') addTask();
-            });
-            document.getElementById('forestCreature').addEventListener('click', petCreature);
+            const addBtn = document.getElementById('addTaskBtn');
+            const taskInput = document.getElementById('taskInput');
+            
+            if (addBtn) {
+                addBtn.addEventListener('click', addTask);
+            }
+            
+            if (taskInput) {
+                taskInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') addTask();
+                });
+            }
+            
+            const forestCreature = document.getElementById('forestCreature');
+            if (forestCreature) {
+                forestCreature.addEventListener('click', petCreature);
+            }
 
             // Category input - update subcategory suggestions when category changes
-            document.getElementById('projectInput').addEventListener('input', function() {
-                updateSubcategorySuggestions(this.value, 'subcategoryDatalist');
-            });
+            const projectInput = document.getElementById('projectInput');
+            if (projectInput) {
+                projectInput.addEventListener('input', function() {
+                    updateSubcategorySuggestions(this.value, 'subcategoryDatalist');
+                });
+            }
 
-            document.getElementById('editTaskProject').addEventListener('input', function() {
-                updateSubcategorySuggestions(this.value, 'editSubcategoryDatalist');
-            });
-
-            // Priority buttons - use event delegation to handle dynamically created buttons
+            // Priority buttons and edit/delete - use event delegation
             document.addEventListener('click', function(e) {
+                // Handle priority buttons
                 if (e.target.closest('.priority-btn')) {
                     const btn = e.target.closest('.priority-btn');
-                    const container = btn.closest('.priority-buttons') || btn.closest('.edit-priority-buttons');
-                    container.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
+                    const container = btn.closest('.priority-buttons');
+                    if (container) {
+                        container.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                    }
                 }
                 
-                // Handle edit buttons with data attributes
+                // Handle edit buttons
                 if (e.target.classList.contains('edit-btn') || e.target.closest('.edit-btn')) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -1130,7 +1157,7 @@
                     }
                 }
                 
-                // Handle delete buttons with data attributes
+                // Handle delete buttons
                 if (e.target.classList.contains('delete-btn') || e.target.closest('.delete-btn')) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -1146,21 +1173,33 @@
             const pointsSlider = document.getElementById('pointsSlider');
             const effortDisplay = document.getElementById('effortDisplay');
             
-            pointsSlider.addEventListener('input', function() {
-                updateEffortDisplay(this.value, effortDisplay);
-            });
+            if (pointsSlider && effortDisplay) {
+                pointsSlider.addEventListener('input', function() {
+                    updateEffortDisplay(this.value, effortDisplay);
+                });
+            }
+        }
 
-            // Edit modal points slider
-            const editPointsSlider = document.getElementById('editPointsSlider');
-            const editEffortDisplay = document.getElementById('editEffortDisplay');
-            
-            editPointsSlider.addEventListener('input', function() {
-                updateEffortDisplay(this.value, editEffortDisplay);
-            });
+        function updateEffortDisplay(value, displayElement) {
+            const effortLevels = {
+                1: 'Quick Task',
+                2: 'Quick Task',
+                3: 'Medium Task', 
+                4: 'Medium Task',
+                5: 'Big Task',
+                6: 'Big Task',
+                7: 'Big Task',
+                8: 'Major Project',
+                9: 'Major Project',
+                10: 'Epic Quest'
+            };
+            displayElement.textContent = effortLevels[value] || 'Quick Task';
         }
 
         function updateSubcategorySuggestions(category, datalistId) {
             const datalist = document.getElementById(datalistId);
+            if (!datalist) return;
+            
             datalist.innerHTML = '';
             
             if (category && categorySubcategories[category]) {
@@ -1185,22 +1224,6 @@
                 // Keep subcategories sorted
                 categorySubcategories[category].sort();
             }
-        }
-
-        function updateEffortDisplay(value, displayElement) {
-            const effortLevels = {
-                1: 'Quick Task',
-                2: 'Quick Task',
-                3: 'Medium Task', 
-                4: 'Medium Task',
-                5: 'Big Task',
-                6: 'Big Task',
-                7: 'Big Task',
-                8: 'Major Project',
-                9: 'Major Project',
-                10: 'Epic Quest'
-            };
-            displayElement.textContent = effortLevels[value] || 'Quick Task';
         }
 
         function saveToStorage() {
@@ -1364,21 +1387,20 @@
             // Show modal first
             document.getElementById('editModal').style.display = 'flex';
             
-            // Then populate fields (wait a tiny bit for modal to render)
+            // Then populate fields
             setTimeout(() => {
                 document.getElementById('editTaskText').value = task.text;
                 
                 // Split project and subcategory
                 const projectParts = task.project.split(' > ');
                 document.getElementById('editTaskProject').value = projectParts[0] || '';
+                document.getElementById('editTaskSubcategory').value = projectParts[1] || '';
                 
-                const subcategoryField = document.getElementById('editTaskSubcategory');
-                if (subcategoryField) {
-                    subcategoryField.value = projectParts[1] || '';
-                }
+                // Update subcategory suggestions for this category
+                updateSubcategorySuggestions(projectParts[0] || '', 'editSubcategoryDatalist');
                 
                 // Set priority buttons
-                document.querySelectorAll('.edit-priority-buttons .priority-btn').forEach(btn => {
+                document.querySelectorAll('#editPriorityButtons .priority-btn').forEach(btn => {
                     btn.classList.remove('active');
                     if (btn.dataset.priority === task.priority) {
                         btn.classList.add('active');
@@ -1386,11 +1408,18 @@
                 });
                 
                 // Set points slider
-                const editSlider = document.getElementById('editPointsSlider');
-                if (editSlider) {
-                    editSlider.value = task.points;
-                    updateEffortDisplay(task.points, document.getElementById('editEffortDisplay'));
-                }
+                document.getElementById('editPointsSlider').value = task.points;
+                updateEffortDisplay(task.points, document.getElementById('editEffortDisplay'));
+                
+                // Add event listener for edit category input
+                document.getElementById('editTaskProject').addEventListener('input', function() {
+                    updateSubcategorySuggestions(this.value, 'editSubcategoryDatalist');
+                });
+                
+                // Add event listener for edit points slider
+                document.getElementById('editPointsSlider').addEventListener('input', function() {
+                    updateEffortDisplay(this.value, document.getElementById('editEffortDisplay'));
+                });
             }, 50);
         }
 
@@ -1409,7 +1438,7 @@
             }
             
             // Get selected priority from active button
-            const activeEditBtn = document.querySelector('.edit-priority-buttons .priority-btn.active');
+            const activeEditBtn = document.querySelector('#editPriorityButtons .priority-btn.active');
             const newPriority = activeEditBtn ? activeEditBtn.dataset.priority : 'must-do';
             
             const newPoints = parseInt(document.getElementById('editPointsSlider').value) || 1;
@@ -1660,7 +1689,7 @@
                 projectTabs.appendChild(tab);
             });
             
-            // Update all projects progress
+            // Update all categories progress
             const allCompleted = tasks.filter(task => task.completed).length;
             const allProgress = tasks.length > 0 ? Math.round((allCompleted / tasks.length) * 100) : 0;
             document.getElementById('allProgress').textContent = allProgress + '%';
@@ -1688,158 +1717,10 @@
             }, 10);
         }
 
-        // Export functions
-        function importFromJSON() {
-            const fileInput = document.getElementById('importFile');
-            const file = fileInput.files[0];
-            
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const importData = JSON.parse(e.target.result);
-                    
-                    if (importData.tasks && Array.isArray(importData.tasks)) {
-                        // Show confirmation dialog
-                        const confirmMessage = `Import ${importData.tasks.length} tasks?\n\nThis will:\n• Add imported tasks to your current tasks\n• Keep your existing tasks\n• Merge the data together\n\nContinue?`;
-                        
-                        if (confirm(confirmMessage)) {
-                            // Find the highest current task ID to avoid conflicts
-                            const maxCurrentId = tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) : 0;
-                            
-                            // Add imported tasks with new IDs
-                            importData.tasks.forEach((importedTask, index) => {
-                                const newTask = {
-                                    ...importedTask,
-                                    id: maxCurrentId + index + 1
-                                };
-                                tasks.push(newTask);
-                            });
-                            
-                            // Update counters
-                            currentTaskId = Math.max(currentTaskId, maxCurrentId + importData.tasks.length + 1);
-                            
-                            // Recalculate stats from scratch
-                            recalculateStats();
-                            
-                            saveToStorage();
-                            updateUI();
-                            updateProjectTabs();
-                            updateWeather();
-                            updateAnimalVisitors();
-                            
-                            alert(`Successfully imported ${importData.tasks.length} tasks! 🎉`);
-                        }
-                    } else {
-                        alert('Invalid file format. Please select a JSON file exported from Forest Companion.');
-                    }
-                } catch (error) {
-                    alert('Error reading file. Please make sure it\'s a valid JSON file exported from Forest Companion.');
-                }
-                
-                // Clear the file input
-                fileInput.value = '';
-            };
-            
-            reader.readAsText(file);
-        }
-
         function recalculateStats() {
             // Recalculate all stats from current tasks
             const completedTasks = tasks.filter(task => task.completed);
             completedTasksCount = completedTasks.length;
             totalPoints = completedTasks.reduce((sum, task) => sum + (task.points || 1), 0);
             
-            // Recalculate level based on total points
-            level = 1;
-            while (totalPoints >= getXPForLevel(level + 1)) {
-                level++;
-            }
-            
-            // Recalculate must-do streak
-            updateMustDoStreak();
-        }
-
-        function exportToCSV() {
-            const csvContent = [
-                ['Task', 'Project', 'Priority', 'Points', 'Status', 'Created Date', 'Completed Date'],
-                ...tasks.map(task => [
-                    task.text,
-                    task.project,
-                    task.priority,
-                    task.points,
-                    task.completed ? 'Completed' : 'Pending',
-                    new Date(task.createdAt).toLocaleDateString(),
-                    task.completedAt ? new Date(task.completedAt).toLocaleDateString() : ''
-                ])
-            ].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
-
-            downloadFile(csvContent, 'forest-companion-tasks.csv', 'text/csv');
-        }
-
-        function exportToJSON() {
-            const exportData = {
-                tasks: tasks,
-                stats: {
-                    level: level,
-                    totalPoints: totalPoints,
-                    completedTasksCount: completedTasksCount,
-                    mustDoStreak: mustDoStreak
-                },
-                exportedAt: new Date().toISOString()
-            };
-
-            downloadFile(JSON.stringify(exportData, null, 2), 'forest-companion-tasks.json', 'application/json');
-        }
-
-        function exportToMarkdown() {
-            const projects = [...new Set(tasks.map(task => task.project))].sort();
-            let markdown = `# Forest Companion Tasks\n\nExported on ${new Date().toLocaleDateString()}\n\n`;
-            
-            markdown += `## Statistics\n- Level: ${level}\n- Total Points: ${totalPoints}\n- Tasks Completed: ${completedTasksCount}\n- Must-Do Streak: ${mustDoStreak}\n\n`;
-
-            projects.forEach(project => {
-                const projectTasks = tasks.filter(task => task.project === project);
-                markdown += `## ${project}\n\n`;
-                
-                ['must-do', 'nice-to-do', 'stretch-goal'].forEach(priority => {
-                    const priorityTasks = projectTasks.filter(task => task.priority === priority);
-                    if (priorityTasks.length > 0) {
-                        markdown += `### ${priority.replace('-', ' ').toUpperCase()}\n\n`;
-                        priorityTasks.forEach(task => {
-                            const status = task.completed ? '✅' : '⭐';
-                            markdown += `${status} ${task.text} (${task.points} pts)\n`;
-                        });
-                        markdown += '\n';
-                    }
-                });
-            });
-
-            downloadFile(markdown, 'forest-companion-tasks.md', 'text/markdown');
-        }
-
-        function downloadFile(content, filename, mimeType) {
-            const blob = new Blob([content], { type: mimeType });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        // Initialize the app
-        init();
-
-        // Click outside modal to close
-        document.getElementById('editModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                cancelEdit();
-            }
-        });
-    </script>
-</body>
-</html>
+            // Rec
