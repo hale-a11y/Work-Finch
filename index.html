@@ -1092,13 +1092,13 @@
             { emoji: '👑🌲', name: 'Forest Ruler', minLevel: 25 }
         ];
 
-        // Weather patterns - improved messages
+        // Weather patterns - cleaner messages
         const weatherPatterns = [
-            { emoji: '☀️', text: 'Perfect productivity weather!' },
-            { emoji: '⛅', text: 'Partly cloudy but getting things done!' },
-            { emoji: '🌧️', text: 'Rainy day - time to focus indoors' },
-            { emoji: '🌫️', text: 'Cloudy productivity day' },
-            { emoji: '🌈', text: 'Rainbow after the storm - great work!' }
+            { emoji: '☀️', text: 'Perfect sunny weather!' },
+            { emoji: '⛅', text: 'Partly cloudy!' },
+            { emoji: '🌧️', text: 'Rainy day!' },
+            { emoji: '🌫️', text: 'Cloudy skies!' },
+            { emoji: '🌈', text: 'Rainbow after the storm!' }
         ];
 
         // Animal visitors
@@ -1399,6 +1399,16 @@
             const projectTabs = document.getElementById('projectTabs');
             const projects = [...new Set(tasks.map(task => task.project))].sort();
             
+            // Learn new categories from existing tasks
+            const allCategories = [...new Set(tasks.map(task => {
+                const projectParts = task.project.split(' > ');
+                return projectParts[0];
+            }))].sort();
+            
+            // Add learned categories to both datalists
+            updateCategoryDatalist('categoryDatalist', allCategories);
+            updateCategoryDatalist('editCategoryDatalist', allCategories);
+            
             // Clear existing tabs except "All Categories"
             projectTabs.innerHTML = `
                 <div class="project-tab ${currentProjectFilter === '' ? 'active' : ''}" onclick="filterByProject('')">
@@ -1426,6 +1436,23 @@
             const allCompleted = tasks.filter(task => task.completed).length;
             const allProgress = tasks.length > 0 ? Math.round((allCompleted / tasks.length) * 100) : 0;
             document.getElementById('allProgress').textContent = allProgress + '%';
+        }
+
+        function updateCategoryDatalist(datalistId, allCategories) {
+            const datalist = document.getElementById(datalistId);
+            if (!datalist) return;
+            
+            // Keep the original options plus learned ones
+            const defaultCategories = ['Admin', 'Communication', 'Development', 'Meeting Prep', 'Personal', 'Projects'];
+            const learnedCategories = allCategories.filter(cat => !defaultCategories.includes(cat));
+            const combinedCategories = [...defaultCategories, ...learnedCategories].sort();
+            
+            datalist.innerHTML = '';
+            combinedCategories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                datalist.appendChild(option);
+            });
         }
 
         function updateTasksList() {
