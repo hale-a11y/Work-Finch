@@ -152,6 +152,28 @@
             font-family: 'DM Sans', sans-serif;
             font-size: 14px;
             background: white;
+            margin-bottom: 8px;
+        }
+
+        .subcategory-container {
+            width: 100%;
+        }
+
+        .subcategory-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e8e8e8;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            background: #fafafa;
+            color: #666;
+        }
+
+        .subcategory-input:focus {
+            border-color: #d4b5a0;
+            background: white;
+            outline: none;
         }
 
         .priority-buttons {
@@ -701,6 +723,10 @@
             font-size: 14px;
         }
 
+        .edit-project-container input:last-child {
+            margin-top: 8px;
+        }
+
         .edit-modal-row {
             display: flex;
             gap: 10px;
@@ -823,15 +849,19 @@
                 </div>
                 <div class="task-input-row-2">
                     <div class="project-input-container">
-                        <input type="text" id="projectInput" class="project-input" placeholder="🗂️ Category" maxlength="20" list="categoryDatalist">
+                        <input type="text" id="projectInput" class="project-input" placeholder="🗂️ Category (or type your own!)" maxlength="20" list="categoryDatalist">
                         <datalist id="categoryDatalist">
-                            <option value="Meetings & Prep">
-                            <option value="Projects">
                             <option value="Admin">
                             <option value="Communication">
                             <option value="Development">
+                            <option value="Meeting Prep">
                             <option value="Personal">
+                            <option value="Projects">
                         </datalist>
+                        <div class="subcategory-container">
+                            <input type="text" id="subcategoryInput" class="subcategory-input" placeholder="📂 Sub-category (optional)" maxlength="20" list="subcategoryDatalist">
+                            <datalist id="subcategoryDatalist"></datalist>
+                        </div>
                     </div>
                     <div class="priority-buttons" id="priorityButtons">
                         <button type="button" class="priority-btn active" data-priority="must-do">
@@ -983,6 +1013,7 @@
         let mustDoStreak = parseInt(localStorage.getItem('mustDoStreak')) || 0;
         let level = parseInt(localStorage.getItem('level')) || 1;
         let totalPoints = parseInt(localStorage.getItem('totalPoints')) || 0;
+        let categorySubcategories = JSON.parse(localStorage.getItem('categorySubcategories')) || {};
         let editingTaskId = null;
         let currentProjectFilter = '';
 
@@ -1037,6 +1068,15 @@
             });
             document.getElementById('forestCreature').addEventListener('click', petCreature);
 
+            // Category input - update subcategory suggestions when category changes
+            document.getElementById('projectInput').addEventListener('input', function() {
+                updateSubcategorySuggestions(this.value, 'subcategoryDatalist');
+            });
+
+            document.getElementById('editTaskProject').addEventListener('input', function() {
+                updateSubcategorySuggestions(this.value, 'editSubcategoryDatalist');
+            });
+
             // Priority buttons
             document.querySelectorAll('.priority-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -1065,6 +1105,34 @@
             });
         }
 
+        function updateSubcategorySuggestions(category, datalistId) {
+            const datalist = document.getElementById(datalistId);
+            datalist.innerHTML = '';
+            
+            if (category && categorySubcategories[category]) {
+                categorySubcategories[category].forEach(subcategory => {
+                    const option = document.createElement('option');
+                    option.value = subcategory;
+                    datalist.appendChild(option);
+                });
+            }
+        }
+
+        function learnCategorySubcategory(category, subcategory) {
+            if (!category || !subcategory) return;
+            
+            if (!categorySubcategories[category]) {
+                categorySubcategories[category] = [];
+            }
+            
+            // Add subcategory if it doesn't exist
+            if (!categorySubcategories[category].includes(subcategory)) {
+                categorySubcategories[category].push(subcategory);
+                // Keep subcategories sorted
+                categorySubcategories[category].sort();
+            }
+        }
+
         function updateEffortDisplay(value, displayElement) {
             const effortLevels = {
                 1: 'Quick Task',
@@ -1088,11 +1156,19 @@
             localStorage.setItem('mustDoStreak', mustDoStreak.toString());
             localStorage.setItem('level', level.toString());
             localStorage.setItem('totalPoints', totalPoints.toString());
+            localStorage.setItem('categorySubcategories', JSON.stringify(categorySubcategories));
         }
 
         function addTask() {
             const taskText = document.getElementById('taskInput').value.trim();
-            const project = document.getElementById('projectInput').value.trim() || 'General';
+            let project = document.getElementById('projectInput').value.trim() || 'General';
+            const subcategory = document.getElementById('subcategoryInput').value.trim();
+            
+            // Learn the category-subcategory relationship
+            if (subcategory) {
+                learnCategorySubcategory(project, subcategory);
+                project = `${project} > ${subcategory}`;
+            }
             
             // Get selected priority from active button
             const activePriorityBtn = document.querySelector('.priority-buttons .priority-btn.active');
@@ -1118,6 +1194,7 @@
             // Clear inputs and reset to defaults
             document.getElementById('taskInput').value = '';
             document.getElementById('projectInput').value = '';
+            document.getElementById('subcategoryInput').value = '';
             document.getElementById('pointsSlider').value = 1;
             updateEffortDisplay(1, document.getElementById('effortDisplay'));
             
@@ -1230,7 +1307,11 @@
 
             editingTaskId = taskId;
             document.getElementById('editTaskText').value = task.text;
-            document.getElementById('editTaskProject').value = task.project;
+            
+            // Split project and subcategory
+            const projectParts = task.project.split(' > ');
+            document.getElementById('editTaskProject').value = projectParts[0] || '';
+            document.getElementById('editTaskSubcategory').value = projectParts[1] || '';
             
             // Set priority buttons
             document.querySelectorAll('.edit-priority-buttons .priority-btn').forEach(btn => {
@@ -1252,7 +1333,14 @@
             if (!task) return;
 
             const newText = document.getElementById('editTaskText').value.trim();
-            const newProject = document.getElementById('editTaskProject').value.trim() || 'General';
+            let newProject = document.getElementById('editTaskProject').value.trim() || 'General';
+            const newSubcategory = document.getElementById('editTaskSubcategory').value.trim();
+            
+            // Learn the category-subcategory relationship
+            if (newSubcategory) {
+                learnCategorySubcategory(newProject, newSubcategory);
+                newProject = `${newProject} > ${newSubcategory}`;
+            }
             
             // Get selected priority from active button
             const activeEditBtn = document.querySelector('.edit-priority-buttons .priority-btn.active');
