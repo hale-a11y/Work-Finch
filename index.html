@@ -1476,17 +1476,23 @@
             return false;
         };
 
-        window.handleDragEnd = function(e) {
-            // Clean up
-            document.querySelectorAll('.task-item').forEach(item => {
-                item.classList.remove('dragging', 'drag-over');
-            });
-            draggedTask = null;
-            draggedIndex = null;
-        };
-
         function updateSubcategorySuggestions(category) {
             const datalist = document.getElementById('subcategoryDatalist');
+            datalist.innerHTML = '';
+            
+            if (category && categorySubcategories[category]) {
+                categorySubcategories[category].forEach(subcategory => {
+                    const option = document.createElement('option');
+                    option.value = subcategory;
+                    datalist.appendChild(option);
+                });
+            }
+        }
+
+        function updateEditSubcategorySuggestions(category) {
+            const datalist = document.getElementById('editSubcategoryDatalist');
+            if (!datalist) return;
+            
             datalist.innerHTML = '';
             
             if (category && categorySubcategories[category]) {
