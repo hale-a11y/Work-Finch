@@ -139,6 +139,42 @@
             border: 2px solid transparent;
             transition: all 0.3s ease;
             position: relative;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .task-item:active {
+            cursor: grabbing;
+        }
+
+        .task-item.dragging {
+            opacity: 0.5;
+            transform: rotate(2deg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .task-item.drag-over {
+            border-top: 3px solid #8b4513;
+            background: rgba(139, 69, 19, 0.1);
+        }
+
+        .drag-handle {
+            color: #ccc;
+            font-size: 16px;
+            cursor: grab;
+            user-select: none;
+            margin-right: 5px;
+            line-height: 1;
+        }
+
+        .drag-handle:hover {
+            color: #8b4513;
+        }
+
+        .task-content {
+            flex: 1;
         }
 
         .task-item:hover {
@@ -1373,20 +1409,81 @@
             }
         }
 
-        function updateEditSubcategorySuggestions(category) {
-            const datalist = document.getElementById('editSubcategoryDatalist');
-            if (!datalist) return;
-            
-            datalist.innerHTML = '';
-            
-            if (category && categorySubcategories[category]) {
-                categorySubcategories[category].forEach(subcategory => {
-                    const option = document.createElement('option');
-                    option.value = subcategory;
-                    datalist.appendChild(option);
-                });
+        // Drag and drop functionality
+        let draggedTask = null;
+        let draggedIndex = null;
+
+        window.handleDragStart = function(e) {
+            draggedTask = e.target;
+            draggedIndex = parseInt(e.target.getAttribute('data-task-index'));
+            e.target.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', e.target.outerHTML);
+        };
+
+        window.handleDragOver = function(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
             }
-        }
+            
+            e.target.closest('.task-item')?.classList.add('drag-over');
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        };
+
+        window.handleDrop = function(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            
+            const dropTarget = e.target.closest('.task-item');
+            if (!dropTarget || !draggedTask) return false;
+            
+            const dropIndex = parseInt(dropTarget.getAttribute('data-task-index'));
+            
+            if (draggedIndex !== dropIndex) {
+                // Get the tasks array we're working with
+                const workingTasks = currentProjectFilter ? 
+                    tasks.filter(task => task.project === currentProjectFilter) : 
+                    tasks;
+                
+                // Find the actual task being moved
+                const draggedTaskId = parseInt(draggedTask.getAttribute('data-task-id'));
+                const draggedTaskObj = tasks.find(t => t.id === draggedTaskId);
+                
+                // Remove from original position
+                const originalIndex = tasks.findIndex(t => t.id === draggedTaskId);
+                tasks.splice(originalIndex, 1);
+                
+                // Find new position in the full tasks array
+                let newPosition;
+                if (dropIndex === 0) {
+                    newPosition = 0;
+                } else {
+                    const dropTaskId = parseInt(dropTarget.getAttribute('data-task-id'));
+                    newPosition = tasks.findIndex(t => t.id === dropTaskId);
+                    if (originalIndex < newPosition) newPosition--;
+                }
+                
+                // Insert at new position
+                tasks.splice(newPosition, 0, draggedTaskObj);
+                
+                saveToStorage();
+                updateTasksList();
+                updateProjectTabs();
+            }
+            
+            return false;
+        };
+
+        window.handleDragEnd = function(e) {
+            // Clean up
+            document.querySelectorAll('.task-item').forEach(item => {
+                item.classList.remove('dragging', 'drag-over');
+            });
+            draggedTask = null;
+            draggedIndex = null;
+        };
 
         function updateSubcategorySuggestions(category) {
             const datalist = document.getElementById('subcategoryDatalist');
@@ -1488,8 +1585,16 @@
 
             emptyState.style.display = 'none';
             
-            tasksList.innerHTML = filteredTasks.map(task => `
-                <div class="task-item">
+            tasksList.innerHTML = filteredTasks.map((task, index) => `
+                <div class="task-item ${task.completed ? 'completed' : ''} ${task.priority}" 
+                     data-task-id="${task.id}" 
+                     data-task-index="${index}"
+                     draggable="true"
+                     ondragstart="handleDragStart(event)"
+                     ondragover="handleDragOver(event)"
+                     ondrop="handleDrop(event)"
+                     ondragend="handleDragEnd(event)">
+                    <div class="drag-handle">⋮⋮</div>
                     <div class="task-content">
                         <div class="task-checkbox ${task.completed ? 'checked' : ''}" 
                              onclick="toggleTask(${task.id})"></div>
