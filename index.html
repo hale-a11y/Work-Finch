@@ -926,13 +926,24 @@
         // Basic state with localStorage persistence
         let tasks = JSON.parse(localStorage.getItem('forestTasks')) || [];
         let currentTaskId = parseInt(localStorage.getItem('currentTaskId')) || 1;
-        let completedTasksCount = 0;
+        let completedTasksCount = parseInt(localStorage.getItem('completedTasksCount')) || 0;
         let categorySubcategories = JSON.parse(localStorage.getItem('categorySubcategories')) || {};
         let currentProjectFilter = '';
         let totalPoints = parseInt(localStorage.getItem('totalPoints')) || 0;
         let mustDoStreak = parseInt(localStorage.getItem('mustDoStreak')) || 0;
         let level = parseInt(localStorage.getItem('level')) || 1;
         let editingTaskId = null;
+
+        // Initialize stats from loaded tasks
+        function initializeFromStorage() {
+            if (tasks.length > 0) {
+                const completedTasks = tasks.filter(task => task.completed);
+                completedTasksCount = completedTasks.length;
+                totalPoints = completedTasks.reduce((sum, task) => sum + (task.points || 1), 0);
+                level = Math.max(1, Math.floor(totalPoints / 25) + 1);
+                updateMustDoStreak();
+            }
+        }
 
         function saveToStorage() {
             localStorage.setItem('forestTasks', JSON.stringify(tasks));
@@ -941,6 +952,7 @@
             localStorage.setItem('totalPoints', totalPoints.toString());
             localStorage.setItem('mustDoStreak', mustDoStreak.toString());
             localStorage.setItem('level', level.toString());
+            localStorage.setItem('completedTasksCount', completedTasksCount.toString());
         }
 
         function editTask(taskId) {
@@ -1698,13 +1710,16 @@
             }
         });
 
-        // Initial load
+        // Initial load - initialize from storage and update everything
+        initializeFromStorage();
         saveToStorage();
         updateTasksList();
         updateProjectTabs();
         updateWeather();
         updateAnimalVisitors();
         updateWeeklyProgress();
+        updateBuddy();
+        updateStats();
     </script>
 </body>
 </html>
